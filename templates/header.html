@@ -1,0 +1,17 @@
+<!-- Mobile Header -->
+<div class="lg:hidden fixed top-0 left-0 right-0 h-11 bg-base-100 border-b border-base-300 flex items-center px-3 z-50">
+  <button class="btn btn-xs btn-soft" @click="$store.app.toggleSidebar()">☰</button>
+  <span class="ml-2 font-semibold text-sm" x-text="$store.app.pageTitle || 'Page'"></span>
+  <div class="flex-1"></div>
+  <slot name="header-actions"></slot>
+</div>
+
+<!-- Toast -->
+<div x-show="$store.app.toastVisible"
+  x-transition:enter="transition transform duration-200" x-transition:enter-start="-translate-y-full" x-transition:enter-end="translate-y-0"
+  x-transition:leave="transition transform duration-200" x-transition:leave-start="translate-y-0" x-transition:leave-end="-translate-y-full"
+  class="fixed top-11 lg:top-0 left-0 lg:left-56 right-0 alert text-xs py-2 rounded-none shadow-md z-[70] flex justify-between items-center"
+  :class="$store.app.toastType" x-cloak>
+  <span x-text="$store.app.toastMessage"></span>
+  <button @click="$store.app.toastVisible=false" class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--x] size-3"></span></button>
+</div>

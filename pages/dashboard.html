@@ -1,0 +1,69 @@
+<!-- Dashboard Page -->
+<div class="space-y-3">
+
+<!-- Widgets -->
+<div class="grid grid-cols-12 gap-2">
+  <div class="col-span-6 md:col-span-3 card bg-base-100 shadow-sm"><div class="card-body p-3 flex-row items-center gap-2.5"><div class="bg-primary/10 rounded-lg p-2"><span class="icon-[tabler--currency-dollar] size-5 text-primary"></span></div><div><p class="text-[10px] text-base-content/50">Revenue</p><p class="text-sm font-bold">Rp 45.2M</p></div></div></div>
+  <div class="col-span-6 md:col-span-3 card bg-base-100 shadow-sm"><div class="card-body p-3 flex-row items-center gap-2.5"><div class="bg-success/10 rounded-lg p-2"><span class="icon-[tabler--shopping-cart] size-5 text-success"></span></div><div><p class="text-[10px] text-base-content/50">Orders</p><p class="text-sm font-bold">1,248</p></div></div></div>
+  <div class="col-span-6 md:col-span-3 card bg-base-100 shadow-sm"><div class="card-body p-3 flex-row items-center gap-2.5"><div class="bg-info/10 rounded-lg p-2"><span class="icon-[tabler--users] size-5 text-info"></span></div><div><p class="text-[10px] text-base-content/50">Customers</p><p class="text-sm font-bold">856</p></div></div></div>
+  <div class="col-span-6 md:col-span-3 card bg-base-100 shadow-sm"><div class="card-body p-3 flex-row items-center gap-2.5"><div class="bg-warning/10 rounded-lg p-2"><span class="icon-[tabler--package] size-5 text-warning"></span></div><div><p class="text-[10px] text-base-content/50">Products</p><p class="text-sm font-bold">324</p></div></div></div>
+</div>
+
+<!-- Chart -->
+<div class="card bg-base-100 shadow-sm"><div class="card-body p-3">
+  <h3 class="card-title text-sm">Sales Overview</h3>
+  <div id="dashChart"></div>
+</div></div>
+
+<!-- Quick Menu -->
+<div class="card bg-base-100 shadow-sm"><div class="card-body p-3">
+  <h3 class="card-title text-sm">Quick Menu</h3>
+  <div class="grid grid-cols-4 md:grid-cols-8 gap-2 mt-2">
+    <a href="#/invoice" class="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-base-200"><span class="icon-[tabler--file-invoice] size-6 text-primary"></span><span class="text-[10px]">Invoice</span></a>
+    <a href="#/pos" class="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-base-200"><span class="icon-[tabler--shopping-cart] size-6 text-success"></span><span class="text-[10px]">POS</span></a>
+    <a href="#/form" class="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-base-200"><span class="icon-[tabler--forms] size-6 text-info"></span><span class="text-[10px]">Forms</span></a>
+    <a href="#/orders" class="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-base-200"><span class="icon-[tabler--list-details] size-6 text-warning"></span><span class="text-[10px]">Orders</span></a>
+    <a href="#" class="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-base-200"><span class="icon-[tabler--users] size-6 text-secondary"></span><span class="text-[10px]">Customers</span></a>
+    <a href="#" class="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-base-200"><span class="icon-[tabler--package] size-6 text-accent"></span><span class="text-[10px]">Products</span></a>
+    <a href="#" class="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-base-200"><span class="icon-[tabler--settings] size-6 text-base-content/60"></span><span class="text-[10px]">Settings</span></a>
+    <a href="#" class="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-base-200"><span class="icon-[tabler--help-circle] size-6 text-base-content/60"></span><span class="text-[10px]">Help</span></a>
+  </div>
+</div></div>
+
+<!-- Transactions -->
+<div class="card bg-base-100 shadow-sm"><div class="card-body p-3">
+  <h3 class="card-title text-sm">Recent Transactions</h3>
+  <div class="space-y-2 mt-2">
+    <div class="flex items-center gap-3 p-2 bg-base-200 rounded-lg"><div class="bg-success/10 rounded-full p-1.5"><span class="icon-[tabler--arrow-down-left] size-4 text-success"></span></div><div class="flex-1"><p class="text-xs font-medium">Payment from PT. Maju Jaya</p><p class="text-[10px] text-base-content/50">17 May 2026</p></div><span class="text-xs font-bold text-success">+Rp 15.5M</span></div>
+    <div class="flex items-center gap-3 p-2 bg-base-200 rounded-lg"><div class="bg-error/10 rounded-full p-1.5"><span class="icon-[tabler--arrow-up-right] size-4 text-error"></span></div><div class="flex-1"><p class="text-xs font-medium">Purchase SSD 1TB x10</p><p class="text-[10px] text-base-content/50">16 May 2026</p></div><span class="text-xs font-bold text-error">-Rp 15M</span></div>
+    <div class="flex items-center gap-3 p-2 bg-base-200 rounded-lg"><div class="bg-success/10 rounded-full p-1.5"><span class="icon-[tabler--arrow-down-left] size-4 text-success"></span></div><div class="flex-1"><p class="text-xs font-medium">Payment from CV. Berkah</p><p class="text-[10px] text-base-content/50">15 May 2026</p></div><span class="text-xs font-bold text-success">+Rp 4.5M</span></div>
+  </div>
+</div></div>
+
+</div>
+
+<script>
+(function(){
+  if(typeof ApexCharts==='undefined'){
+    const s=document.createElement('script');
+    s.src='https://cdn.jsdelivr.net/npm/apexcharts';
+    s.onload=renderChart;
+    document.head.appendChild(s);
+  } else { renderChart(); }
+  function renderChart(){
+    const el=document.getElementById('dashChart');if(!el||el.dataset.rendered)return;
+    el.dataset.rendered='1';
+    new ApexCharts(el,{
+      chart:{type:'bar',height:200,toolbar:{show:false},fontFamily:'inherit'},
+      series:[{name:'Sales',data:[12,19,8,15,22,18,25,14,20,28,16,24]},{name:'Expenses',data:[8,11,6,9,14,10,12,8,11,15,9,13]}],
+      xaxis:{categories:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],labels:{style:{fontSize:'10px'}}},
+      yaxis:{labels:{style:{fontSize:'10px'},formatter:v=>v+'M'}},
+      colors:['#22c55e','#f97316'],
+      plotOptions:{bar:{borderRadius:3,columnWidth:'60%'}},
+      dataLabels:{enabled:false},
+      legend:{fontSize:'11px',position:'top',horizontalAlign:'right'},
+      grid:{borderColor:'rgba(0,0,0,0.05)'}
+    }).render();
+  }
+})();
+</script>

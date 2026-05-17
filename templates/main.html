@@ -1,0 +1,21 @@
+<!-- Main Content Wrapper -->
+<main class="lg:ml-56 pt-11 lg:pt-0 pb-14" @click="if(window.innerWidth<1024) $store.app.closeSidebar()">
+  <div class="p-2 lg:p-3 space-y-3">
+    <!-- Breadcrumb -->
+    <nav class="text-xs" x-show="$store.app.breadcrumb" x-cloak>
+      <ol class="flex items-center gap-1 text-base-content/60">
+        <li><a href="index.html" class="hover:text-primary">Home</a></li>
+        <template x-for="crumb in ($store.app.breadcrumb || [])">
+          <li class="flex items-center gap-1">
+            <span class="icon-[tabler--chevron-right] size-3"></span>
+            <a :href="crumb.href || '#'" class="hover:text-primary" :class="!crumb.href?'text-base-content font-medium':''" x-text="crumb.label"></a>
+          </li>
+        </template>
+      </ol>
+    </nav>
+    <!-- Page title -->
+    <h2 class="text-lg font-bold" x-text="$store.app.pageTitle"></h2>
+    <!-- Page content slot -->
+    <div id="page-content"></div>
+  </div>
+</main>

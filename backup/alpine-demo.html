@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="shadcn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Alpine Template Demo</title>
+  <link href="dist/output.css" rel="stylesheet">
+  <script src="layout.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
+</head>
+<body class="bg-base-200 min-h-screen text-sm" x-data x-init="$store.app.pageTitle='Alpine Demo';$store.app.breadcrumb=[{label:'Demo',href:null}]">
+
+<!-- Template Includes -->
+<div data-include="templates/sidebar.html"></div>
+<div data-include="templates/header.html"></div>
+
+<!-- Main -->
+<main class="lg:ml-56 pt-11 lg:pt-0 pb-14" @click="if(window.innerWidth<1024) $store.app.closeSidebar()">
+  <div class="p-2 lg:p-3 space-y-3">
+    <!-- Breadcrumb -->
+    <nav class="text-xs"><ol class="flex items-center gap-1 text-base-content/60">
+      <li><a href="index.html" class="hover:text-primary">Home</a></li>
+      <li class="flex items-center gap-1"><span class="icon-[tabler--chevron-right] size-3"></span><span class="text-base-content font-medium" x-text="$store.app.pageTitle"></span></li>
+    </ol></nav>
+    <h2 class="text-lg font-bold" x-text="$store.app.pageTitle"></h2>
+
+    <!-- Page Content -->
+    <div class="card bg-base-100 shadow-sm"><div class="card-body p-4 gap-3">
+      <h3 class="card-title text-sm">Toast Demo</h3>
+      <div class="flex flex-wrap gap-2">
+        <button class="btn btn-sm btn-success" @click="$store.app.showToast('Success!','alert-success')">Success</button>
+        <button class="btn btn-sm btn-error" @click="$store.app.showToast('Error!','alert-error')">Error</button>
+        <button class="btn btn-sm btn-warning" @click="$store.app.showToast('Warning!','alert-warning')">Warning</button>
+        <button class="btn btn-sm btn-info" @click="$store.app.showToast('Info','alert-info')">Info</button>
+      </div>
+    </div></div>
+
+    <div class="card bg-base-100 shadow-sm"><div class="card-body p-4 gap-3">
+      <h3 class="card-title text-sm">Drawer</h3>
+      <button class="btn btn-sm btn-primary" @click="$store.app.openDrawer()">Open Drawer</button>
+    </div></div>
+
+    <div class="card bg-base-100 shadow-sm" x-data="{items:['Apple','Banana'],val:''}"><div class="card-body p-4 gap-3">
+      <h3 class="card-title text-sm">Dynamic List</h3>
+      <div class="join w-full">
+        <input class="input input-sm join-item flex-1" x-model="val" placeholder="Add..." @keydown.enter="if(val){items.push(val);val=''}">
+        <button class="btn btn-sm btn-primary join-item" @click="if(val){items.push(val);val=''}">Add</button>
+      </div>
+      <ul class="space-y-1">
+        <template x-for="(item,i) in items" :key="i">
+          <li class="flex items-center justify-between bg-base-200 rounded px-3 py-1.5 text-xs">
+            <span x-text="item"></span>
+            <button class="btn btn-xs btn-soft btn-error btn-circle" @click="items.splice(i,1)"><span class="icon-[tabler--x] size-3"></span></button>
+          </li>
+        </template>
+      </ul>
+    </div></div>
+
+  </div>
+</main>
+
+<!-- Desktop Action Bar -->
+<footer class="fixed bottom-0 left-0 lg:left-56 right-0 bg-base-100 border-t border-base-300 px-3 py-2 z-30 hidden lg:flex gap-1.5 justify-end">
+  <button class="btn btn-sm btn-primary" @click="$store.app.showToast('Created!')">Create</button>
+  <button class="btn btn-sm btn-soft btn-error">Delete</button>
+</footer>
+
+<div data-include="templates/footer.html"></div>
+
+</body>
+</html>

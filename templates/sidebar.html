@@ -1,0 +1,43 @@
+<!-- Overlay -->
+<div class="fixed inset-0 bg-black/40 z-30 lg:hidden" x-show="$store.app.sidebarOpen" x-transition.opacity @click="$store.app.closeSidebar()" x-cloak></div>
+
+<!-- Sidebar -->
+<aside class="fixed left-0 top-0 h-full w-[80vw] lg:w-56 bg-base-100 border-r border-base-300 z-[60] transition-transform flex flex-col"
+  :class="$store.app.sidebarOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'" @click.stop x-data="sidebar">
+  <div class="p-3 pb-4 border-b border-base-300">
+    <select class="select select-sm w-full" x-model="$store.app.company">
+      <template x-for="c in $store.app.companies"><option x-text="c" :value="c"></option></template>
+    </select>
+  </div>
+  <nav class="flex-1 p-2 space-y-1.5 overflow-y-auto">
+    <template x-for="item in menu">
+      <a :href="item.href" @click="$store.app.closeSidebar()" class="btn btn-sm w-full justify-start gap-2" :class="isActive(item.href)?'btn-primary':'btn-soft'">
+        <span :class="item.icon+' size-4'"></span><span x-text="item.label"></span>
+      </a>
+    </template>
+    <div class="divider my-1 text-xs">Menu</div>
+    <template x-for="item in mainMenu">
+      <a :href="item.href" @click="$store.app.closeSidebar()" class="btn btn-sm w-full justify-start gap-2" :class="isActive(item.href)?'btn-primary':'btn-soft'">
+        <span :class="item.icon+' size-4'"></span><span x-text="item.label"></span>
+      </a>
+    </template>
+  </nav>
+  <!-- Profile -->
+  <div class="p-2 border-t border-base-300 relative">
+    <button @click="$store.app.toggleProfile()" class="flex items-center gap-2 w-full px-2 py-1.5 rounded-md hover:bg-base-200">
+      <div class="avatar placeholder"><div class="bg-primary text-primary-content w-7 rounded-full"><span class="text-xs" x-text="$store.app.user.initials"></span></div></div>
+      <div class="flex-1 min-w-0 text-left"><p class="text-xs font-medium truncate" x-text="$store.app.user.name"></p><p class="text-[10px] text-base-content/50 truncate" x-text="$store.app.user.email"></p></div>
+      <span class="icon-[tabler--dots-vertical] size-4 text-base-content/40"></span>
+    </button>
+    <div x-show="$store.app.profileOpen" x-transition @click.outside="$store.app.profileOpen=false"
+      class="absolute bottom-full left-2 right-2 mb-1 bg-base-100 border border-base-300 rounded-lg shadow-lg z-50 py-1" x-cloak>
+      <template x-for="item in profileMenu">
+        <a :href="item.href" class="flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-base-200">
+          <span :class="item.icon+' size-4'"></span><span x-text="item.label"></span>
+        </a>
+      </template>
+      <div class="border-t border-base-200 my-1"></div>
+      <a href="#" class="flex items-center gap-2 px-3 py-1.5 text-xs text-error hover:bg-base-200"><span class="icon-[tabler--logout] size-4"></span>Logout</a>
+    </div>
+  </div>
+</aside>

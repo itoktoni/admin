@@ -3,185 +3,25 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Dashboard</title>
+  <title>FlyonAdmin</title>
   <link href="dist/output.css" rel="stylesheet">
-  <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
-  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+  <script src="layout.js"></script>
+  <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.14.8/dist/cdn.min.js"></script>
 </head>
-<body class="bg-base-200 min-h-screen text-sm pb-16">
 
-<!-- 1. Header -->
-<header class="bg-base-100 border-b border-base-300 px-3 py-2.5 flex items-center justify-between sticky top-0 z-40">
-  <div class="flex items-center gap-2.5">
-    <div class="avatar placeholder"><div class="bg-primary text-primary-content w-9 rounded-full"><span class="text-sm">JD</span></div></div>
-    <div><p class="text-[10px] text-base-content/50 leading-tight">Administrator</p><p class="text-sm font-bold leading-tight">John Doe</p></div>
+<body class="bg-base-200 min-h-screen text-sm" x-data="router">
+
+<div data-include="templates/sidebar.html"></div>
+<div data-include="templates/header.html"></div>
+
+<main class="lg:ml-56 pt-11 lg:pt-0 " @click="if(window.innerWidth<1024) $store.app.closeSidebar()">
+  <div class="p-2 lg:p-3 space-y-3">
+    <h2 class="text-lg font-bold" x-text="$store.app.pageTitle" x-effect="document.title=$store.app.pageTitle+' - FlyonAdmin'"></h2>
+    <div id="page"></div>
   </div>
-  <div class="relative">
-    <button onclick="document.getElementById('notifPanel').classList.toggle('hidden')" class="btn btn-sm btn-soft btn-circle relative">
-      <span class="icon-[tabler--bell] size-5"></span>
-      <span class="badge badge-xs badge-error absolute -top-0.5 -right-0.5">3</span>
-    </button>
-    <div id="notifPanel" class="hidden absolute right-0 top-full mt-2 w-72 bg-base-100 border border-base-300 rounded-lg shadow-xl z-50">
-      <div class="flex items-center justify-between px-3 py-2 border-b border-base-200"><span class="text-xs font-bold">Notifications</span><button class="text-[10px] text-primary" onclick="document.getElementById('notifPanel').classList.add('hidden')">Mark all read</button></div>
-      <div class="max-h-64 overflow-y-auto divide-y divide-base-200">
-        <a href="#" class="flex gap-2.5 px-3 py-2.5 hover:bg-base-200 bg-primary/5"><div class="bg-success/10 rounded-full p-1 shrink-0 mt-0.5"><span class="icon-[tabler--cash] size-3.5 text-success"></span></div><div><p class="text-xs font-medium">Payment received Rp 15.5M</p><p class="text-[10px] text-base-content/50">2 min ago</p></div></a>
-        <a href="#" class="flex gap-2.5 px-3 py-2.5 hover:bg-base-200 bg-primary/5"><div class="bg-warning/10 rounded-full p-1 shrink-0 mt-0.5"><span class="icon-[tabler--alert-triangle] size-3.5 text-warning"></span></div><div><p class="text-xs font-medium">Stock low: Mouse Wireless (3 left)</p><p class="text-[10px] text-base-content/50">1 hour ago</p></div></a>
-        <a href="#" class="flex gap-2.5 px-3 py-2.5 hover:bg-base-200 bg-primary/5"><div class="bg-info/10 rounded-full p-1 shrink-0 mt-0.5"><span class="icon-[tabler--user-plus] size-3.5 text-info"></span></div><div><p class="text-xs font-medium">New customer registered</p><p class="text-[10px] text-base-content/50">3 hours ago</p></div></a>
-        <a href="#" class="flex gap-2.5 px-3 py-2.5 hover:bg-base-200"><div class="bg-primary/10 rounded-full p-1 shrink-0 mt-0.5"><span class="icon-[tabler--file-invoice] size-3.5 text-primary"></span></div><div><p class="text-xs">Invoice INV-0042 overdue</p><p class="text-[10px] text-base-content/50">Yesterday</p></div></a>
-      </div>
-      <div class="px-3 py-2 border-t border-base-200 text-center"><a href="#" class="text-[10px] text-primary font-medium">View all notifications</a></div>
-    </div>
-  </div>
-</header>
+</main>
 
-<div class="p-2 lg:p-3 space-y-3">
+<div data-include="templates/footer.html"></div>
 
-<!-- 2. Widgets -->
-<div class="grid grid-cols-12 gap-2">
-  <div class="col-span-6 md:col-span-3 card bg-base-100 shadow-sm"><div class="card-body p-3 flex-row items-center gap-2.5">
-    <div class="bg-primary/10 rounded-lg p-2"><span class="icon-[tabler--currency-dollar] size-5 text-primary"></span></div>
-    <div><p class="text-[10px] text-base-content/50">Revenue</p><p class="text-sm font-bold">Rp 45.2M</p></div>
-  </div></div>
-  <div class="col-span-6 md:col-span-3 card bg-base-100 shadow-sm"><div class="card-body p-3 flex-row items-center gap-2.5">
-    <div class="bg-success/10 rounded-lg p-2"><span class="icon-[tabler--shopping-cart] size-5 text-success"></span></div>
-    <div><p class="text-[10px] text-base-content/50">Orders</p><p class="text-sm font-bold">1,248</p></div>
-  </div></div>
-  <div class="col-span-6 md:col-span-3 card bg-base-100 shadow-sm"><div class="card-body p-3 flex-row items-center gap-2.5">
-    <div class="bg-info/10 rounded-lg p-2"><span class="icon-[tabler--users] size-5 text-info"></span></div>
-    <div><p class="text-[10px] text-base-content/50">Customers</p><p class="text-sm font-bold">856</p></div>
-  </div></div>
-  <div class="col-span-6 md:col-span-3 card bg-base-100 shadow-sm"><div class="card-body p-3 flex-row items-center gap-2.5">
-    <div class="bg-warning/10 rounded-lg p-2"><span class="icon-[tabler--package] size-5 text-warning"></span></div>
-    <div><p class="text-[10px] text-base-content/50">Products</p><p class="text-sm font-bold">324</p></div>
-  </div></div>
-</div>
-
-<!-- 3. Chart with date filter -->
-<div class="card bg-base-100 shadow-sm"><div class="card-body p-3">
-  <div class="flex items-center justify-between mb-2">
-    <h3 class="card-title text-sm">Sales Overview</h3>
-    <input type="text" id="chartDate" class="input input-xs w-44" placeholder="Filter date">
-  </div>
-  <div id="chart"></div>
-</div></div>
-
-<!-- 4. Menu Icon Grid -->
-<div class="card bg-base-100 shadow-sm"><div class="card-body p-3">
-  <h3 class="card-title text-sm">Quick Menu</h3>
-  <div class="grid grid-cols-4 md:grid-cols-8 gap-2 mt-2">
-    <a href="invoice.html" class="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-base-200"><span class="icon-[tabler--file-invoice] size-6 text-primary"></span><span class="text-[10px]">Invoice</span></a>
-    <a href="pos.html" class="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-base-200"><span class="icon-[tabler--shopping-cart] size-6 text-success"></span><span class="text-[10px]">POS</span></a>
-    <a href="form.html" class="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-base-200"><span class="icon-[tabler--forms] size-6 text-info"></span><span class="text-[10px]">Forms</span></a>
-    <a href="#" class="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-base-200"><span class="icon-[tabler--report-analytics] size-6 text-warning"></span><span class="text-[10px]">Reports</span></a>
-    <a href="#" class="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-base-200"><span class="icon-[tabler--users] size-6 text-secondary"></span><span class="text-[10px]">Customers</span></a>
-    <a href="#" class="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-base-200"><span class="icon-[tabler--package] size-6 text-accent"></span><span class="text-[10px]">Products</span></a>
-    <a href="#" class="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-base-200"><span class="icon-[tabler--settings] size-6 text-base-content/60"></span><span class="text-[10px]">Settings</span></a>
-    <a href="#" class="flex flex-col items-center gap-1 p-2 rounded-lg hover:bg-base-200"><span class="icon-[tabler--help-circle] size-6 text-base-content/60"></span><span class="text-[10px]">Help</span></a>
-  </div>
-</div></div>
-
-<!-- 5. Menu List -->
-<div class="card bg-base-100 shadow-sm"><div class="card-body p-3">
-  <h3 class="card-title text-sm">Menu</h3>
-  <div class="mt-1 divide-y divide-base-200">
-    <a href="invoice.html" class="flex items-center gap-3 py-2.5 px-1 hover:bg-base-200 rounded"><span class="icon-[tabler--file-invoice] size-5 text-primary"></span><span class="flex-1 text-xs font-medium">Invoice Management</span><span class="icon-[tabler--chevron-right] size-4 text-base-content/30"></span></a>
-    <a href="pos.html" class="flex items-center gap-3 py-2.5 px-1 hover:bg-base-200 rounded"><span class="icon-[tabler--shopping-cart] size-5 text-success"></span><span class="flex-1 text-xs font-medium">Point of Sale</span><span class="icon-[tabler--chevron-right] size-4 text-base-content/30"></span></a>
-    <a href="form.html" class="flex items-center gap-3 py-2.5 px-1 hover:bg-base-200 rounded"><span class="icon-[tabler--forms] size-5 text-info"></span><span class="flex-1 text-xs font-medium">Form Components</span><span class="icon-[tabler--chevron-right] size-4 text-base-content/30"></span></a>
-    <a href="#" class="flex items-center gap-3 py-2.5 px-1 hover:bg-base-200 rounded"><span class="icon-[tabler--report-analytics] size-5 text-warning"></span><span class="flex-1 text-xs font-medium">Reports & Analytics</span><span class="icon-[tabler--chevron-right] size-4 text-base-content/30"></span></a>
-    <a href="#" class="flex items-center gap-3 py-2.5 px-1 hover:bg-base-200 rounded"><span class="icon-[tabler--settings] size-5 text-base-content/60"></span><span class="flex-1 text-xs font-medium">Settings</span><span class="icon-[tabler--chevron-right] size-4 text-base-content/30"></span></a>
-  </div>
-</div></div>
-
-<!-- 6. Tabs -->
-<div class="card bg-base-100 shadow-sm"><div class="card-body p-3">
-  <div class="flex gap-1 border-b border-base-300 mb-3">
-    <button class="tab-btn px-3 py-1.5 text-xs font-medium border-b-2 border-primary text-primary" onclick="showTab('trx')">Transaksi</button>
-    <button class="tab-btn px-3 py-1.5 text-xs font-medium border-b-2 border-transparent text-base-content/50" onclick="showTab('act')">Aktivitas</button>
-    <button class="tab-btn px-3 py-1.5 text-xs font-medium border-b-2 border-transparent text-base-content/50" onclick="showTab('prod')">Products</button>
-  </div>
-
-  <!-- Tab: Transaksi -->
-  <div id="tab-trx">
-    <div class="space-y-2">
-      <div class="flex items-center gap-3 p-2 bg-base-200 rounded-lg"><div class="bg-success/10 rounded-full p-1.5"><span class="icon-[tabler--arrow-down-left] size-4 text-success"></span></div><div class="flex-1"><p class="text-xs font-medium">Payment from PT. Maju Jaya</p><p class="text-[10px] text-base-content/50">17 May 2026, 08:30</p></div><span class="text-xs font-bold text-success">+Rp 15.5M</span></div>
-      <div class="flex items-center gap-3 p-2 bg-base-200 rounded-lg"><div class="bg-error/10 rounded-full p-1.5"><span class="icon-[tabler--arrow-up-right] size-4 text-error"></span></div><div class="flex-1"><p class="text-xs font-medium">Purchase SSD 1TB x10</p><p class="text-[10px] text-base-content/50">16 May 2026, 14:20</p></div><span class="text-xs font-bold text-error">-Rp 15M</span></div>
-      <div class="flex items-center gap-3 p-2 bg-base-200 rounded-lg"><div class="bg-success/10 rounded-full p-1.5"><span class="icon-[tabler--arrow-down-left] size-4 text-success"></span></div><div class="flex-1"><p class="text-xs font-medium">Payment from CV. Berkah</p><p class="text-[10px] text-base-content/50">15 May 2026, 10:15</p></div><span class="text-xs font-bold text-success">+Rp 4.5M</span></div>
-      <div class="flex items-center gap-3 p-2 bg-base-200 rounded-lg"><div class="bg-success/10 rounded-full p-1.5"><span class="icon-[tabler--arrow-down-left] size-4 text-success"></span></div><div class="flex-1"><p class="text-xs font-medium">POS Sale #1247</p><p class="text-[10px] text-base-content/50">15 May 2026, 09:00</p></div><span class="text-xs font-bold text-success">+Rp 285K</span></div>
-    </div>
-  </div>
-
-  <!-- Tab: Aktivitas (Timeline) -->
-  <div id="tab-act" class="hidden">
-    <ul class="timeline timeline-vertical timeline-compact timeline-sm">
-      <li><div class="timeline-start text-[10px] text-base-content/50">10:30</div><div class="timeline-middle"><span class="icon-[tabler--circle-filled] size-3 text-primary"></span></div><div class="timeline-end timeline-box text-xs">Invoice INV-2026-0001 created</div><hr></li>
-      <li><hr><div class="timeline-start text-[10px] text-base-content/50">09:15</div><div class="timeline-middle"><span class="icon-[tabler--circle-filled] size-3 text-success"></span></div><div class="timeline-end timeline-box text-xs">Payment received Rp 4.5M</div><hr></li>
-      <li><hr><div class="timeline-start text-[10px] text-base-content/50">08:45</div><div class="timeline-middle"><span class="icon-[tabler--circle-filled] size-3 text-info"></span></div><div class="timeline-end timeline-box text-xs">New customer registered</div><hr></li>
-      <li><hr><div class="timeline-start text-[10px] text-base-content/50">08:00</div><div class="timeline-middle"><span class="icon-[tabler--circle-filled] size-3 text-warning"></span></div><div class="timeline-end timeline-box text-xs">Stock alert: Mouse Wireless low</div></li>
-    </ul>
-  </div>
-
-  <!-- Tab: Products Table -->
-  <div id="tab-prod" class="hidden">
-    <!-- Desktop table -->
-    <div class="hidden md:block overflow-x-auto">
-      <table class="table table-xs w-full">
-        <thead><tr><th>Product</th><th>SKU</th><th>Stock</th><th>Price</th><th>Status</th></tr></thead>
-        <tbody>
-          <tr><td class="font-medium">Laptop ASUS ROG</td><td class="font-mono text-base-content/60">SKU-001</td><td>12</td><td>Rp 15.0M</td><td><span class="badge badge-xs badge-success">Active</span></td></tr>
-          <tr><td class="font-medium">Monitor LG 27"</td><td class="font-mono text-base-content/60">SKU-002</td><td>28</td><td>Rp 4.5M</td><td><span class="badge badge-xs badge-success">Active</span></td></tr>
-          <tr><td class="font-medium">Mouse Wireless</td><td class="font-mono text-base-content/60">SKU-004</td><td>3</td><td>Rp 350K</td><td><span class="badge badge-xs badge-warning">Low Stock</span></td></tr>
-          <tr><td class="font-medium">Keyboard Mechanical</td><td class="font-mono text-base-content/60">SKU-003</td><td>45</td><td>Rp 1.2M</td><td><span class="badge badge-xs badge-success">Active</span></td></tr>
-          <tr><td class="font-medium">Printer Laser</td><td class="font-mono text-base-content/60">SKU-010</td><td>0</td><td>Rp 3.2M</td><td><span class="badge badge-xs badge-error">Out</span></td></tr>
-        </tbody>
-      </table>
-    </div>
-    <!-- Mobile stacked -->
-    <div class="md:hidden space-y-2">
-      <div class="bg-base-200 rounded-lg p-2.5 flex items-center gap-3"><div class="flex-1"><p class="text-xs font-medium">Laptop ASUS ROG</p><p class="text-[10px] text-base-content/50">SKU-001 · Stock: 12</p></div><div class="text-right"><p class="text-xs font-bold">Rp 15.0M</p><span class="badge badge-xs badge-success">Active</span></div></div>
-      <div class="bg-base-200 rounded-lg p-2.5 flex items-center gap-3"><div class="flex-1"><p class="text-xs font-medium">Monitor LG 27"</p><p class="text-[10px] text-base-content/50">SKU-002 · Stock: 28</p></div><div class="text-right"><p class="text-xs font-bold">Rp 4.5M</p><span class="badge badge-xs badge-success">Active</span></div></div>
-      <div class="bg-base-200 rounded-lg p-2.5 flex items-center gap-3"><div class="flex-1"><p class="text-xs font-medium">Mouse Wireless</p><p class="text-[10px] text-base-content/50">SKU-004 · Stock: 3</p></div><div class="text-right"><p class="text-xs font-bold">Rp 350K</p><span class="badge badge-xs badge-warning">Low</span></div></div>
-      <div class="bg-base-200 rounded-lg p-2.5 flex items-center gap-3"><div class="flex-1"><p class="text-xs font-medium">Keyboard Mechanical</p><p class="text-[10px] text-base-content/50">SKU-003 · Stock: 45</p></div><div class="text-right"><p class="text-xs font-bold">Rp 1.2M</p><span class="badge badge-xs badge-success">Active</span></div></div>
-      <div class="bg-base-200 rounded-lg p-2.5 flex items-center gap-3"><div class="flex-1"><p class="text-xs font-medium">Printer Laser</p><p class="text-[10px] text-base-content/50">SKU-010 · Stock: 0</p></div><div class="text-right"><p class="text-xs font-bold">Rp 3.2M</p><span class="badge badge-xs badge-error">Out</span></div></div>
-    </div>
-  </div>
-</div></div>
-
-</div>
-
-<!-- 7. Footer Nav -->
-<footer class="fixed bottom-0 left-0 right-0 bg-base-100 border-t border-base-300 z-40">
-  <div class="flex justify-around items-center py-1.5">
-    <a href="invoice.html" class="flex flex-col items-center gap-0.5 text-base-content/50"><span class="icon-[tabler--file-invoice] size-5"></span><span class="text-[9px]">Invoice</span></a>
-    <a href="pos.html" class="flex flex-col items-center gap-0.5 text-base-content/50"><span class="icon-[tabler--shopping-cart] size-5"></span><span class="text-[9px]">POS</span></a>
-    <a href="index.html" class="flex flex-col items-center gap-0.5 -mt-4"><span class="btn btn-circle btn-sm btn-primary shadow-md"><span class="icon-[tabler--home] size-5"></span></span><span class="text-[9px] mt-0.5 text-primary font-medium">Home</span></a>
-    <a href="form.html" class="flex flex-col items-center gap-0.5 text-base-content/50"><span class="icon-[tabler--forms] size-5"></span><span class="text-[9px]">Forms</span></a>
-    <a href="#" class="flex flex-col items-center gap-0.5 text-base-content/50"><span class="icon-[tabler--user] size-5"></span><span class="text-[9px]">Profile</span></a>
-  </div>
-</footer>
-
-<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
-<script>
-// Tabs
-function showTab(id){
-  document.querySelectorAll('[id^="tab-"]').forEach(el=>el.classList.add('hidden'));
-  document.getElementById('tab-'+id).classList.remove('hidden');
-  document.querySelectorAll('.tab-btn').forEach(b=>{b.className='tab-btn px-3 py-1.5 text-xs font-medium border-b-2 border-transparent text-base-content/50';});
-  event.target.className='tab-btn px-3 py-1.5 text-xs font-medium border-b-2 border-primary text-primary';
-}
-
-// Chart
-flatpickr('#chartDate',{mode:'range',dateFormat:'d M',defaultDate:['01 May','17 May']});
-new ApexCharts(document.getElementById('chart'),{
-  chart:{type:'bar',height:200,toolbar:{show:false},fontFamily:'inherit'},
-  series:[{name:'Sales',data:[12,19,8,15,22,18,25,14,20,28,16,24]},{name:'Expenses',data:[8,11,6,9,14,10,12,8,11,15,9,13]}],
-  xaxis:{categories:['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'],labels:{style:{fontSize:'10px'}}},
-  yaxis:{labels:{style:{fontSize:'10px'},formatter:v=>v+'M'}},
-  colors:['#22c55e','#f97316'],
-  plotOptions:{bar:{borderRadius:3,columnWidth:'60%'}},
-  dataLabels:{enabled:false},
-  legend:{fontSize:'11px',position:'top',horizontalAlign:'right'},
-  grid:{borderColor:'hsl(var(--bc)/0.1)'}
-}).render();
-</script>
 </body>
 </html>

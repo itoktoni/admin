@@ -1,0 +1,24 @@
+<!-- Mobile Footer Nav -->
+<footer class="lg:hidden fixed bottom-0 left-0 right-0 bg-base-100 border-t border-base-300 z-40" x-data="footerNav">
+  <div class="flex justify-around items-center py-2">
+    <template x-for="item in items">
+      <a :href="item.href" class="flex flex-col items-center gap-0.5"
+        :class="item.center ? '-mt-4' : (isActive(item.href) ? 'text-primary' : 'text-base-content/50')">
+        <span x-show="item.center" class="btn btn-circle btn-primary shadow-md"><span :class="item.icon+' size-6'"></span></span>
+        <span x-show="!item.center" :class="item.icon+' size-6'"></span>
+        <span class="text-[10px]" :class="item.center?'mt-0.5':''" x-text="item.label"></span>
+      </a>
+    </template>
+  </div>
+</footer>
+
+<!-- Drawer -->
+<div x-show="$store.app.drawerOpen" class="fixed inset-0 z-50" x-cloak>
+  <div class="absolute inset-0 bg-black/30" @click="$store.app.closeDrawer()" x-transition.opacity></div>
+  <div class="absolute right-0 top-0 h-full w-72 bg-base-100 p-4"
+    x-transition:enter="transition transform" x-transition:enter-start="translate-x-full" x-transition:enter-end="translate-x-0"
+    x-transition:leave="transition transform" x-transition:leave-start="translate-x-0" x-transition:leave-end="translate-x-full">
+    <div class="flex justify-between mb-3"><h3 class="font-semibold text-sm">Drawer</h3><button class="btn btn-xs btn-soft" @click="$store.app.closeDrawer()">✕</button></div>
+    <div id="drawer-content"></div>
+  </div>
+</div>
