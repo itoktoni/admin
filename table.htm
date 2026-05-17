@@ -1,0 +1,215 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="shadcn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Orders</title>
+  <link href="dist/output.css" rel="stylesheet">
+</head>
+<body class="bg-base-200 min-h-screen text-sm">
+<div id="ov" class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden" onclick="closeSB()"></div>
+<aside id="sb" class="fixed left-0 top-0 h-full w-[80vw] lg:w-56 bg-base-100 border-r border-base-300 z-[60] transition-transform -translate-x-full lg:translate-x-0 flex flex-col" onclick="event.stopPropagation()">
+  <div class="p-3 pb-4 border-b border-base-300"><select class="select select-sm w-full"><option>PT. Acme Indonesia</option><option>CV. Berkah Digital</option></select></div>
+  <nav class="flex-1 p-2 space-y-0.5 overflow-y-auto">
+    <a href="index.html" class="btn btn-sm btn-soft w-full justify-start gap-2"><span class="icon-[tabler--dashboard] size-4"></span>Dashboard</a>
+    <div class="divider my-1 text-xs">Menu</div>
+    <a href="form.html" class="btn btn-sm btn-soft w-full justify-start gap-2"><span class="icon-[tabler--forms] size-4"></span>Forms</a>
+    <a href="invoice.html" class="btn btn-sm btn-soft w-full justify-start gap-2"><span class="icon-[tabler--file-invoice] size-4"></span>Invoice</a>
+    <a href="pos.html" class="btn btn-sm btn-soft w-full justify-start gap-2"><span class="icon-[tabler--shopping-cart] size-4"></span>POS</a>
+    <a href="table.html" class="btn btn-sm btn-primary w-full justify-start gap-2"><span class="icon-[tabler--list-details] size-4"></span>Orders</a>
+    <div class="divider my-1 text-xs">System</div>
+    <a href="#" class="btn btn-sm btn-soft w-full justify-start gap-2"><span class="icon-[tabler--settings] size-4"></span>Settings</a>
+  </nav>
+  <div class="p-2 border-t border-base-300 relative" onmouseleave="document.getElementById('profMenu2').classList.add('hidden')">
+    <button onclick="document.getElementById('profMenu2').classList.toggle('hidden')" class="flex items-center gap-2 w-full px-2 py-1.5 rounded-md hover:bg-base-200 cursor-pointer">
+      <div class="avatar placeholder"><div class="bg-primary text-primary-content w-7 rounded-full"><span class="text-xs">JD</span></div></div>
+      <div class="flex-1 min-w-0 text-left"><p class="text-xs font-medium truncate">John Doe</p><p class="text-[10px] text-base-content/50 truncate">john@acme.co.id</p></div>
+      <span class="icon-[tabler--dots-vertical] size-4 text-base-content/40"></span>
+    </button>
+    <div id="profMenu2" class="hidden absolute bottom-full left-2 right-2 mb-1 bg-base-100 border border-base-300 rounded-lg shadow-lg z-50 py-1">
+      <a href="#" class="flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-base-200"><span class="icon-[tabler--user] size-4"></span>Profile</a>
+      <a href="#" class="flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-base-200"><span class="icon-[tabler--settings] size-4"></span>Settings</a>
+      <a href="#" class="flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-base-200"><span class="icon-[tabler--credit-card] size-4"></span>Billing</a>
+      <div class="border-t border-base-200 my-1"></div>
+      <a href="#" class="flex items-center gap-2 px-3 py-1.5 text-xs text-error hover:bg-base-200"><span class="icon-[tabler--logout] size-4"></span>Logout</a>
+    </div>
+  </div>
+</aside>
+
+<div class="lg:hidden fixed top-0 left-0 right-0 h-11 bg-base-100 border-b border-base-300 flex items-center px-3 z-50">
+  <button class="btn btn-xs btn-soft" onclick="toggleSB()">☰</button><span class="ml-2 font-semibold text-sm">Orders</span>
+  <div class="flex-1"></div><button class="btn btn-xs btn-primary gap-1"><span class="icon-[tabler--plus] size-3.5"></span>New</button>
+</div>
+
+<main class="lg:ml-56 pt-11 lg:pt-0 pb-16 lg:pb-0">
+  <div class="p-2 lg:p-3 space-y-3">
+    <!-- Breadcrumb -->
+    <nav class="hidden lg:block text-xs" aria-label="Breadcrumb"><ol class="flex items-center gap-1 text-base-content/60"><li><a href="index.html" class="hover:text-primary">Home</a></li><li><span class="icon-[tabler--chevron-right] size-3"></span></li><li class="text-base-content font-medium">Orders</li></ol></nav>
+
+    <!-- Filters -->
+    <div class="card bg-base-100 shadow-sm"><div class="card-body p-3 space-y-2">
+      <div class="grid grid-cols-12 gap-2">
+        <select id="filterShip" class="col-span-6 md:col-span-3 select select-sm" onchange="applyFilter()"><option value="">All Shipping</option><option>COD Berbah</option><option>COD Piyungan</option><option>Dikirim</option></select>
+        <select id="filterPay" class="col-span-6 md:col-span-3 select select-sm" onchange="applyFilter()"><option value="">All Payment</option><option>Cash</option><option>QRIS</option><option>Card</option></select>
+        <select id="perPage" class="col-span-6 md:col-span-3 select select-sm" onchange="page=1;applyFilter()"><option>5</option><option selected>10</option><option>25</option></select>
+        <button class="col-span-6 md:col-span-3 btn btn-sm btn-outline gap-1" onclick="document.getElementById('advFilter').classList.remove('hidden')"><span class="icon-[tabler--filter] size-3.5"></span>Advanced</button>
+      </div>
+      <div class="join w-full">
+        <span class="join-item btn btn-sm no-animation text-xs">Cari</span>
+        <input type="text" id="searchInput" class="input input-sm join-item flex-1" placeholder="Customer atau invoice..." onkeydown="if(event.key==='Enter')applyFilter()">
+        <button class="btn btn-sm btn-primary join-item" onclick="applyFilter()"><span class="icon-[tabler--search] size-3.5"></span></button>
+      </div>
+    </div></div>
+
+    <!-- Table -->
+    <div class="card bg-base-100 shadow-sm"><div class="card-body p-0">
+      <div class="hidden lg:block overflow-x-auto">
+        <table class="table table-xs w-full">
+          <thead><tr>
+            <th><input type="checkbox" class="checkbox checkbox-xs" onchange="toggleAll(this)"></th>
+            <th>Invoice</th>
+            <th class="cursor-pointer select-none" onclick="sortBy('cust')">Customer <span class="icon-[tabler--arrows-sort] size-3 align-middle text-base-content/40"></span></th>
+            <th class="cursor-pointer select-none" onclick="sortBy('date')">Tanggal <span class="icon-[tabler--arrows-sort] size-3 align-middle text-base-content/40"></span></th>
+            <th>Pengiriman</th>
+            <th class="cursor-pointer select-none" onclick="sortBy('disc')">Disc <span class="icon-[tabler--arrows-sort] size-3 align-middle text-base-content/40"></span></th>
+            <th>Tax</th>
+            <th>Payment</th>
+            <th class="cursor-pointer select-none text-right" onclick="sortBy('total')">Total <span class="icon-[tabler--arrows-sort] size-3 align-middle text-base-content/40"></span></th>
+            <th>Actions</th>
+          </tr></thead>
+          <tbody id="tBody"></tbody>
+        </table>
+      </div>
+      <div class="lg:hidden flex items-center gap-2 px-3 py-2 border-b border-base-200">
+        <input type="checkbox" class="checkbox checkbox-xs" onchange="toggleAll(this)"><span class="text-xs text-base-content/60">Select All</span><span class="flex-1"></span><span id="mSelCount" class="text-xs text-primary font-medium"></span>
+      </div>
+      <div class="lg:hidden divide-y divide-base-200" id="mBody"></div>
+      <!-- Pagination + Delete -->
+      <div class="flex items-center justify-between p-3 border-t border-base-200">
+        <button class="btn btn-xs btn-soft btn-error gap-1" onclick="deleteSelected()"><span class="icon-[tabler--trash] size-3.5"></span>Delete (<span id="selCount">0</span>)</button>
+        <div class="flex items-center gap-2">
+          <span class="text-[10px] text-base-content/50"><span id="showing"></span></span>
+          <div class="join"><button class="btn btn-xs join-item" onclick="page=Math.max(1,page-1);applyFilter()"><span class="icon-[tabler--chevron-left] size-3.5"></span></button><span class="btn btn-xs join-item no-animation font-medium" id="pageNum">1</span><button class="btn btn-xs join-item" onclick="page++;applyFilter()"><span class="icon-[tabler--chevron-right] size-3.5"></span></button></div>
+        </div>
+      </div>
+    </div></div>
+  </div>
+</main>
+
+<!-- Advanced Filter -->
+<div id="advFilter" class="hidden fixed inset-0 z-50">
+  <div class="absolute inset-0 bg-black/40" onclick="document.getElementById('advFilter').classList.add('hidden')"></div>
+  <div class="absolute right-0 top-0 h-full w-80 max-w-[85vw] bg-base-100 shadow-xl p-4 space-y-3 overflow-y-auto">
+    <div class="flex justify-between items-center"><h3 class="text-sm font-bold">Advanced Filter</h3><button class="btn btn-xs btn-soft btn-circle" onclick="document.getElementById('advFilter').classList.add('hidden')"><span class="icon-[tabler--x] size-4"></span></button></div>
+    <div><label class="label-text text-xs">From</label><input type="date" id="afFrom" class="input input-sm w-full"></div>
+    <div><label class="label-text text-xs">To</label><input type="date" id="afTo" class="input input-sm w-full"></div>
+    <div><label class="label-text text-xs">Min Total</label><input type="number" id="afMin" class="input input-sm w-full" placeholder="0"></div>
+    <div><label class="label-text text-xs">Max Total</label><input type="number" id="afMax" class="input input-sm w-full" placeholder="∞"></div>
+    <button class="btn btn-sm btn-primary btn-block" onclick="page=1;applyFilter();document.getElementById('advFilter').classList.add('hidden')">Apply</button>
+    <button class="btn btn-sm btn-soft btn-block" onclick="document.getElementById('afFrom').value='';document.getElementById('afTo').value='';document.getElementById('afMin').value='';document.getElementById('afMax').value='';applyFilter()">Reset</button>
+  </div>
+</div>
+
+<!-- Footer Nav (mobile) -->
+<footer class="lg:hidden fixed bottom-0 left-0 right-0 bg-base-100 border-t border-base-300 z-40">
+  <div class="flex justify-around items-center py-1.5">
+    <a href="invoice.html" class="flex flex-col items-center gap-0.5 text-base-content/50"><span class="icon-[tabler--file-invoice] size-5"></span><span class="text-[9px]">Invoice</span></a>
+    <a href="pos.html" class="flex flex-col items-center gap-0.5 text-base-content/50"><span class="icon-[tabler--shopping-cart] size-5"></span><span class="text-[9px]">POS</span></a>
+    <a href="index.html" class="flex flex-col items-center gap-0.5 -mt-4"><span class="btn btn-circle btn-sm btn-primary shadow-md"><span class="icon-[tabler--home] size-5"></span></span><span class="text-[9px] mt-0.5">Home</span></a>
+    <a href="table.html" class="flex flex-col items-center gap-0.5 text-primary"><span class="icon-[tabler--list-details] size-5"></span><span class="text-[9px] font-medium">Orders</span></a>
+    <a href="#" class="flex flex-col items-center gap-0.5 text-base-content/50"><span class="icon-[tabler--user] size-5"></span><span class="text-[9px]">Profile</span></a>
+  </div>
+</footer>
+
+<script>
+const orders=[
+  {id:1,inv:'INV-0001',cust:'PT. Maju Jaya',date:'2026-05-17',ship:'COD Berbah',disc:10,tax:11,pay:'Cash',total:15500000},
+  {id:2,inv:'INV-0002',cust:'CV. Berkah Sentosa',date:'2026-05-16',ship:'Dikirim',disc:0,tax:11,pay:'QRIS',total:4500000},
+  {id:3,inv:'INV-0003',cust:'PT. Sinar Abadi',date:'2026-05-15',ship:'COD Piyungan',disc:5,tax:12,pay:'Card',total:8200000},
+  {id:4,inv:'INV-0004',cust:'UD. Makmur Sejahtera',date:'2026-05-14',ship:'Dikirim',disc:15,tax:11,pay:'Cash',total:2350000},
+  {id:5,inv:'INV-0005',cust:'PT. Global Teknik',date:'2026-05-13',ship:'COD Berbah',disc:0,tax:11,pay:'QRIS',total:12800000},
+  {id:6,inv:'INV-0006',cust:'Toko Jaya Abadi',date:'2026-05-12',ship:'Dikirim',disc:20,tax:12,pay:'Card',total:6750000},
+  {id:7,inv:'INV-0007',cust:'CV. Nusantara',date:'2026-05-11',ship:'COD Piyungan',disc:0,tax:11,pay:'Cash',total:950000},
+  {id:8,inv:'INV-0008',cust:'PT. Karya Mandiri',date:'2026-05-10',ship:'COD Berbah',disc:10,tax:11,pay:'QRIS',total:3200000},
+  {id:9,inv:'INV-0009',cust:'UD. Sentosa Jaya',date:'2026-05-09',ship:'Dikirim',disc:5,tax:11,pay:'Cash',total:7400000},
+  {id:10,inv:'INV-0010',cust:'PT. Mega Teknik',date:'2026-05-08',ship:'COD Berbah',disc:0,tax:12,pay:'Card',total:18900000},
+  {id:11,inv:'INV-0011',cust:'CV. Abadi Makmur',date:'2026-05-07',ship:'COD Piyungan',disc:10,tax:11,pay:'QRIS',total:5600000},
+  {id:12,inv:'INV-0012',cust:'PT. Indo Prima',date:'2026-05-06',ship:'Dikirim',disc:0,tax:11,pay:'Cash',total:1250000},
+];
+let selected=new Set(),sortCol='date',sortDir=-1,page=1;
+const fmt=n=>'Rp '+n.toLocaleString('id-ID');
+const shipBadge=s=>s==='Dikirim'?'badge-info':s.includes('Berbah')?'badge-success':'badge-warning';
+const payBadge=p=>p==='Cash'?'badge-success':p==='QRIS'?'badge-primary':'badge-secondary';
+
+function toggleSB(){document.getElementById('sb').classList.toggle('-translate-x-full');document.getElementById('ov').classList.toggle('hidden');}
+function closeSB(){document.getElementById('sb').classList.add('-translate-x-full');document.getElementById('ov').classList.add('hidden');}
+document.querySelector('main').addEventListener('click',()=>{if(innerWidth<1024)closeSB();});
+
+function sortBy(col){if(sortCol===col)sortDir*=-1;else{sortCol=col;sortDir=1;}applyFilter();}
+
+function applyFilter(){
+  let data=[...orders];
+  const q=document.getElementById('searchInput').value.toLowerCase();
+  const ship=document.getElementById('filterShip').value;
+  const pay=document.getElementById('filterPay').value;
+  const afFrom=document.getElementById('afFrom').value;
+  const afTo=document.getElementById('afTo').value;
+  const afMin=+(document.getElementById('afMin').value)||0;
+  const afMax=+(document.getElementById('afMax').value)||Infinity;
+  // Update URL
+  const params=new URLSearchParams();
+  if(q)params.set('search',q);
+  if(ship)params.set('shipping',ship.toLowerCase().replace(/\s+/g,'-'));
+  if(pay)params.set('payment',pay.toLowerCase());
+  if(afFrom)params.set('from',afFrom);
+  if(afTo)params.set('to',afTo);
+  if(afMin)params.set('min',afMin);
+  if(afMax!==Infinity)params.set('max',afMax);
+  if(page>1)params.set('page',page);
+  const qs=params.toString();
+  history.replaceState(null,'',qs?'?'+qs:location.pathname);
+  if(q)data=data.filter(o=>o.cust.toLowerCase().includes(q)||o.inv.toLowerCase().includes(q));
+  if(ship)data=data.filter(o=>o.ship===ship);
+  if(pay)data=data.filter(o=>o.pay===pay);
+  if(afFrom)data=data.filter(o=>o.date>=afFrom);
+  if(afTo)data=data.filter(o=>o.date<=afTo);
+  data=data.filter(o=>o.total>=afMin&&o.total<=afMax);
+  // Sort
+  data.sort((a,b)=>{const av=a[sortCol],bv=b[sortCol];if(typeof av==='string')return av.localeCompare(bv)*sortDir;return(av-bv)*sortDir;});
+  // Pagination
+  const pp=+document.getElementById('perPage').value;
+  const totalPages=Math.ceil(data.length/pp);
+  if(page>totalPages)page=totalPages||1;
+  const start=(page-1)*pp;
+  const paged=data.slice(start,start+pp);
+  document.getElementById('showing').textContent=(start+1)+'-'+Math.min(start+pp,data.length)+' of '+data.length;
+  document.getElementById('pageNum').textContent=page+'/'+totalPages;
+  document.getElementById('selCount').textContent=selected.size;
+  document.getElementById('mSelCount').textContent=selected.size?selected.size+' selected':'';
+  renderTable(paged);
+}
+
+function renderTable(data){
+  document.getElementById('tBody').innerHTML=data.map(o=>`<tr class="${selected.has(o.id)?'bg-primary/5':''}">
+    <td><input type="checkbox" class="checkbox checkbox-xs" ${selected.has(o.id)?'checked':''} onchange="toggleRow(${o.id},this)"></td>
+    <td class="font-mono text-xs text-primary">${o.inv}</td>
+    <td class="font-medium">${o.cust}</td><td class="text-base-content/60">${o.date}</td>
+    <td><span class="badge badge-xs ${shipBadge(o.ship)}">${o.ship}</span></td>
+    <td>${o.disc?o.disc+'%':'-'}</td><td>${o.tax}%</td>
+    <td><span class="badge badge-xs ${payBadge(o.pay)}">${o.pay}</span></td>
+    <td class="text-right font-mono font-medium">${fmt(o.total)}</td>
+    <td><div class="flex gap-0.5"><button class="btn btn-xs btn-soft btn-circle" title="Edit"><span class="icon-[tabler--edit] size-3"></span></button><button class="btn btn-xs btn-soft btn-circle" title="Print"><span class="icon-[tabler--printer] size-3"></span></button><button class="btn btn-xs btn-soft btn-warning btn-circle" title="Prepare"><span class="icon-[tabler--package] size-3"></span></button><button class="btn btn-xs btn-soft btn-error btn-circle" title="Delete" onclick="deleteRow(${o.id})"><span class="icon-[tabler--trash] size-3"></span></button></div></td>
+  </tr>`).join('');
+  document.getElementById('mBody').innerHTML=data.map(o=>`<div class="p-3 ${selected.has(o.id)?'bg-primary/5':''}"><div class="flex items-start gap-2"><input type="checkbox" class="checkbox checkbox-xs mt-0.5" ${selected.has(o.id)?'checked':''} onchange="toggleRow(${o.id},this)"><div class="flex-1 min-w-0"><div class="flex justify-between"><p class="text-xs font-bold truncate">${o.cust}</p><span class="text-xs font-mono font-bold">${fmt(o.total)}</span></div><p class="text-[10px] text-primary font-mono">${o.inv}</p><div class="flex flex-wrap gap-1 mt-1"><span class="badge badge-xs ${shipBadge(o.ship)}">${o.ship}</span><span class="badge badge-xs ${payBadge(o.pay)}">${o.pay}</span>${o.disc?'<span class="badge badge-xs badge-soft">-'+o.disc+'%</span>':''}</div><p class="text-[10px] text-base-content/50 mt-1">${o.date}</p></div></div><div class="flex gap-1 mt-2 pl-6"><button class="btn btn-xs btn-soft flex-1"><span class="icon-[tabler--edit] size-3"></span></button><button class="btn btn-xs btn-soft flex-1"><span class="icon-[tabler--printer] size-3"></span></button><button class="btn btn-xs btn-soft btn-warning flex-1"><span class="icon-[tabler--package] size-3"></span></button><button class="btn btn-xs btn-soft btn-error flex-1" onclick="deleteRow(${o.id})"><span class="icon-[tabler--trash] size-3"></span></button></div></div>`).join('');
+}
+
+function toggleAll(el){if(el.checked)orders.forEach(o=>selected.add(o.id));else selected.clear();applyFilter();}
+function toggleRow(id,el){if(el.checked)selected.add(id);else selected.delete(id);applyFilter();}
+function deleteRow(id){if(!confirm('Delete?'))return;const i=orders.findIndex(o=>o.id===id);if(i>-1)orders.splice(i,1);selected.delete(id);applyFilter();}
+function deleteSelected(){if(!selected.size)return;if(!confirm('Delete '+selected.size+'?'))return;selected.forEach(id=>{const i=orders.findIndex(o=>o.id===id);if(i>-1)orders.splice(i,1);});selected.clear();applyFilter();}
+// Restore from URL
+(function(){const p=new URLSearchParams(location.search);if(p.get('search'))document.getElementById('searchInput').value=p.get('search');if(p.get('shipping')){const v=p.get('shipping').replace(/-/g,' ');for(const o of document.getElementById('filterShip').options)if(o.value.toLowerCase()===v)o.selected=true;}if(p.get('payment')){const v=p.get('payment');for(const o of document.getElementById('filterPay').options)if(o.value.toLowerCase()===v)o.selected=true;}if(p.get('from'))document.getElementById('afFrom').value=p.get('from');if(p.get('to'))document.getElementById('afTo').value=p.get('to');if(p.get('min'))document.getElementById('afMin').value=p.get('min');if(p.get('max'))document.getElementById('afMax').value=p.get('max');if(p.get('page'))page=+p.get('page');})();
+applyFilter();
+</script>
+</body>
+</html>

@@ -293,7 +293,7 @@
 <div id="drw" class="fixed inset-0 z-50 translate-x-full transition-transform"><div class="absolute inset-0 bg-black/30" onclick="document.getElementById('drw').classList.add('translate-x-full')"></div><div class="absolute right-0 top-0 h-full w-72 bg-base-100 p-4"><div class="flex justify-between mb-3"><h3 class="font-semibold text-sm">Drawer</h3><button class="btn btn-xs btn-soft" onclick="document.getElementById('drw').classList.add('translate-x-full')">✕</button></div><input type="text" class="input input-sm w-full mb-2" placeholder="Search..."><button class="btn btn-sm btn-primary btn-block">Apply</button></div></div>
 
 <!-- Toast -->
-<div id="toast" class="fixed bottom-16 right-3 alert alert-success text-xs py-2 shadow-lg translate-x-[200%] transition-transform z-50"><span>Action completed!</span></div>
+<div id="toast" class="fixed top-11 lg:top-0 left-0 lg:left-56 right-0 alert alert-success text-xs py-2 rounded-none shadow-md z-[70] flex justify-between items-center hidden"><span>Action completed!</span><button onclick="hideToast()" class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--x] size-3"></span></button></div>
 
 <script src="https://cdn.jsdelivr.net/npm/flyonui@2.4.1/dist/accordion.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
@@ -307,7 +307,8 @@ function toggleSB(){document.getElementById('sb').classList.toggle('-translate-x
 function closeSB(){document.getElementById('sb').classList.add('-translate-x-full');document.getElementById('ov').classList.add('hidden');}
 document.querySelector('main').addEventListener('click',()=>{if(innerWidth<1024)closeSB();});
 document.addEventListener('click',function(e){const m=document.getElementById('profMenu');if(!m.classList.contains('hidden')&&!e.target.closest('[onclick*="profMenu"]')&&!m.contains(e.target))m.classList.add('hidden');});
-function showToast(){const t=document.getElementById('toast');t.classList.remove('translate-x-[200%]');setTimeout(()=>t.classList.add('translate-x-[200%]'),2500);}
+function showToast(){const t=document.getElementById('toast');t.classList.remove('hidden');setTimeout(hideToast,3000);}
+function hideToast(){document.getElementById('toast').classList.add('hidden');}
 
 function handleFiles(files){
   const prev=document.getElementById('filePreview');
