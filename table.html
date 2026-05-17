@@ -1,213 +1,546 @@
 <!DOCTYPE html>
 <html lang="id" data-theme="shadcn">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Orders</title>
   <link href="dist/output.css" rel="stylesheet">
 </head>
-<body class="bg-base-200 min-h-screen text-sm">
-<div id="ov" class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden" onclick="closeSB()"></div>
-<aside id="sb" class="fixed left-0 top-0 h-full w-[80vw] lg:w-56 bg-base-100 border-r border-base-300 z-[60] transition-transform -translate-x-full lg:translate-x-0 flex flex-col" onclick="event.stopPropagation()">
-  <div class="p-3 pb-4 border-b border-base-300"><select class="select select-sm w-full"><option>PT. Acme Indonesia</option><option>CV. Berkah Digital</option></select></div>
-  <nav class="flex-1 p-2 space-y-0.5 overflow-y-auto">
-    <a href="index.html" class="btn btn-sm btn-soft w-full justify-start gap-2"><span class="icon-[tabler--dashboard] size-4"></span>Dashboard</a>
-    <div class="divider my-1 text-xs">Menu</div>
-    <a href="form.html" class="btn btn-sm btn-soft w-full justify-start gap-2"><span class="icon-[tabler--forms] size-4"></span>Forms</a>
-    <a href="invoice.html" class="btn btn-sm btn-soft w-full justify-start gap-2"><span class="icon-[tabler--file-invoice] size-4"></span>Invoice</a>
-    <a href="pos.html" class="btn btn-sm btn-soft w-full justify-start gap-2"><span class="icon-[tabler--shopping-cart] size-4"></span>POS</a>
-    <a href="table.html" class="btn btn-sm btn-primary w-full justify-start gap-2"><span class="icon-[tabler--list-details] size-4"></span>Orders</a>
-    <div class="divider my-1 text-xs">System</div>
-    <a href="#" class="btn btn-sm btn-soft w-full justify-start gap-2"><span class="icon-[tabler--settings] size-4"></span>Settings</a>
-  </nav>
-  <div class="p-2 border-t border-base-300 relative" onmouseleave="document.getElementById('profMenu2').classList.add('hidden')">
-    <button onclick="document.getElementById('profMenu2').classList.toggle('hidden')" class="flex items-center gap-2 w-full px-2 py-1.5 rounded-md hover:bg-base-200 cursor-pointer">
-      <div class="avatar placeholder"><div class="bg-primary text-primary-content w-7 rounded-full"><span class="text-xs">JD</span></div></div>
-      <div class="flex-1 min-w-0 text-left"><p class="text-xs font-medium truncate">John Doe</p><p class="text-[10px] text-base-content/50 truncate">john@acme.co.id</p></div>
-      <span class="icon-[tabler--dots-vertical] size-4 text-base-content/40"></span>
-    </button>
-    <div id="profMenu2" class="hidden absolute bottom-full left-2 right-2 mb-1 bg-base-100 border border-base-300 rounded-lg shadow-lg z-50 py-1">
-      <a href="#" class="flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-base-200"><span class="icon-[tabler--user] size-4"></span>Profile</a>
-      <a href="#" class="flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-base-200"><span class="icon-[tabler--settings] size-4"></span>Settings</a>
-      <a href="#" class="flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-base-200"><span class="icon-[tabler--credit-card] size-4"></span>Billing</a>
-      <div class="border-t border-base-200 my-1"></div>
-      <a href="#" class="flex items-center gap-2 px-3 py-1.5 text-xs text-error hover:bg-base-200"><span class="icon-[tabler--logout] size-4"></span>Logout</a>
+
+<body class="bg-base-200 min-h-screen text-[13px]">
+  <div id="ov" class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden" onclick="closeSB()"></div>
+  <aside id="sb"
+    class="fixed left-0 top-0 h-full w-[80vw] lg:w-56 bg-base-100 border-r border-base-300 z-[60] transition-transform -translate-x-full lg:translate-x-0 flex flex-col"
+    onclick="event.stopPropagation()">
+    <div class="p-3 pb-4 border-b border-base-300"><select class="select select-sm w-full">
+        <option>PT. Acme Indonesia</option>
+        <option>CV. Berkah Digital</option>
+      </select></div>
+    <nav class="flex-1 p-2 space-y-0.5 overflow-y-auto">
+      <a href="index.html" class="btn btn-sm btn-soft w-full justify-start gap-2"><span
+          class="icon-[tabler--dashboard] size-4"></span>Dashboard</a>
+      <div class="divider my-1 text-xs">Menu</div>
+      <a href="form.html" class="btn btn-sm btn-soft w-full justify-start gap-2"><span
+          class="icon-[tabler--forms] size-4"></span>Forms</a>
+      <a href="invoice.html" class="btn btn-sm btn-soft w-full justify-start gap-2"><span
+          class="icon-[tabler--file-invoice] size-4"></span>Invoice</a>
+      <a href="pos.html" class="btn btn-sm btn-soft w-full justify-start gap-2"><span
+          class="icon-[tabler--shopping-cart] size-4"></span>POS</a>
+      <a href="table.html" class="btn btn-sm btn-primary w-full justify-start gap-2"><span
+          class="icon-[tabler--list-details] size-4"></span>Orders</a>
+      <div class="divider my-1 text-xs">System</div>
+      <a href="#" class="btn btn-sm btn-soft w-full justify-start gap-2"><span
+          class="icon-[tabler--settings] size-4"></span>Settings</a>
+    </nav>
+    <div class="p-2 border-t border-base-300 relative"
+      onmouseleave="document.getElementById('profMenu2').classList.add('hidden')">
+      <button onclick="document.getElementById('profMenu2').classList.toggle('hidden')"
+        class="flex items-center gap-2 w-full px-2 py-1.5 rounded-md hover:bg-base-200 cursor-pointer">
+        <div class="avatar placeholder">
+          <div class="bg-primary text-primary-content w-7 rounded-full"><span class="text-xs">JD</span></div>
+        </div>
+        <div class="flex-1 min-w-0 text-left">
+          <p class="text-xs font-medium truncate">John Doe</p>
+          <p class="text-[10px] text-base-content/50 truncate">john@acme.co.id</p>
+        </div>
+        <span class="icon-[tabler--dots-vertical] size-4 text-base-content/40"></span>
+      </button>
+      <div id="profMenu2"
+        class="hidden absolute bottom-full left-2 right-2 mb-1 bg-base-100 border border-base-300 rounded-lg shadow-lg z-50 py-1">
+        <a href="#" class="flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-base-200"><span
+            class="icon-[tabler--user] size-4"></span>Profile</a>
+        <a href="#" class="flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-base-200"><span
+            class="icon-[tabler--settings] size-4"></span>Settings</a>
+        <a href="#" class="flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-base-200"><span
+            class="icon-[tabler--credit-card] size-4"></span>Billing</a>
+        <div class="border-t border-base-200 my-1"></div>
+        <a href="#" class="flex items-center gap-2 px-3 py-1.5 text-xs text-error hover:bg-base-200"><span
+            class="icon-[tabler--logout] size-4"></span>Logout</a>
+      </div>
+    </div>
+  </aside>
+
+  <div
+    class="lg:hidden fixed top-0 left-0 right-0 h-11 bg-base-100 border-b border-base-300 flex items-center px-3 z-50">
+    <button class="btn btn-xs btn-soft" onclick="toggleSB()">☰</button><span
+      class="ml-2 font-semibold text-sm">Orders</span>
+    <div class="flex-1"></div><button class="btn btn-xs btn-primary gap-1"><span
+        class="icon-[tabler--plus] size-3.5"></span>New</button>
+  </div>
+
+  <main class="lg:ml-56 pt-11 lg:pt-0 pb-28 lg:pb-12">
+    <div class="p-2 lg:p-3 space-y-3">
+      <!-- Breadcrumb -->
+      <nav class="hidden lg:block text-xs" aria-label="Breadcrumb">
+        <ol class="flex items-center gap-1 text-base-content/60">
+          <li><a href="index.html" class="hover:text-primary">Home</a></li>
+          <li><span class="icon-[tabler--chevron-right] size-3"></span></li>
+          <li class="text-base-content font-medium">Orders</li>
+        </ol>
+      </nav>
+
+      <!-- Filters -->
+      <div class="card bg-base-100 shadow-sm">
+        <div class="card-body p-3 space-y-2">
+          <div class="grid grid-cols-12 gap-2">
+            <select id="filterShip" class="col-span-6 md:col-span-3 select select-sm" onchange="applyFilter()">
+              <option value="">All Shipping</option>
+              <option>COD Berbah</option>
+              <option>COD Piyungan</option>
+              <option>Dikirim</option>
+            </select>
+            <select id="filterPay" class="col-span-6 md:col-span-3 select select-sm" onchange="applyFilter()">
+              <option value="">All Payment</option>
+              <option>Cash</option>
+              <option>QRIS</option>
+              <option>Card</option>
+            </select>
+            <select id="perPage" class="col-span-6 md:col-span-3 select select-sm" onchange="page=1;applyFilter()">
+              <option>5</option>
+              <option selected>10</option>
+              <option>25</option>
+            </select>
+            <button class="col-span-6 md:col-span-3 btn btn-sm btn-outline gap-1"
+              onclick="document.getElementById('advFilter').classList.remove('hidden')"><span
+                class="icon-[tabler--filter] size-3.5"></span>Advanced</button>
+          </div>
+          <div class="join w-full">
+            <span class="join-item btn btn-sm no-animation text-xs">Cari</span>
+            <input type="text" id="searchInput" class="input input-sm join-item flex-1"
+              placeholder="Customer atau invoice..." onkeydown="if(event.key==='Enter')applyFilter()">
+            <button class="btn btn-sm btn-primary join-item" onclick="applyFilter()"><span
+                class="icon-[tabler--search] size-3.5"></span></button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Table -->
+      <div class="card bg-base-100 shadow-sm">
+        <div class="card-body p-0">
+          <div class="hidden lg:block overflow-x-auto">
+            <table class="table table-sm w-full">
+              <thead>
+                <tr>
+                  <th><input type="checkbox" class="checkbox checkbox-xs" onchange="toggleAll(this)"></th>
+                  <th>Invoice</th>
+                  <th class="cursor-pointer select-none" onclick="sortBy('cust')">Customer <span
+                      class="icon-[tabler--arrows-sort] size-3 align-middle text-base-content/40"></span></th>
+                  <th class="cursor-pointer select-none" onclick="sortBy('date')">Tanggal <span
+                      class="icon-[tabler--arrows-sort] size-3 align-middle text-base-content/40"></span></th>
+                  <th>Pengiriman</th>
+                  <th class="cursor-pointer select-none" onclick="sortBy('disc')">Disc <span
+                      class="icon-[tabler--arrows-sort] size-3 align-middle text-base-content/40"></span></th>
+                  <th>Tax</th>
+                  <th>Payment</th>
+                  <th class="cursor-pointer select-none text-right" onclick="sortBy('total')">Total <span
+                      class="icon-[tabler--arrows-sort] size-3 align-middle text-base-content/40"></span></th>
+                  <th>Actions</th>
+                </tr>
+              </thead>
+              <tbody id="tBody">
+                <tr>
+                  <td><input type="checkbox" class="checkbox checkbox-xs"></td>
+                  <td class="font-mono text-xs text-primary">INV-0001</td>
+                  <td class="font-medium">PT. Maju Jaya</td>
+                  <td class="text-base-content/60">2026-05-17</td>
+                  <td><span class="badge badge-xs badge-success">COD Berbah</span></td>
+                  <td>10%</td>
+                  <td>11%</td>
+                  <td><span class="badge badge-xs badge-success">Cash</span></td>
+                  <td class="text-right font-mono font-medium">Rp 15.500.000</td>
+                  <td>
+                    <div class="flex gap-0.5"><button class="btn btn-xs btn-soft btn-circle"><span
+                          class="icon-[tabler--edit] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-circle"><span
+                          class="icon-[tabler--printer] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-warning btn-circle"><span
+                          class="icon-[tabler--package] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-error btn-circle"><span
+                          class="icon-[tabler--trash] size-3"></span></button></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="checkbox checkbox-xs"></td>
+                  <td class="font-mono text-xs text-primary">INV-0002</td>
+                  <td class="font-medium">CV. Berkah Sentosa</td>
+                  <td class="text-base-content/60">2026-05-16</td>
+                  <td><span class="badge badge-xs badge-info">Dikirim</span></td>
+                  <td>-</td>
+                  <td>11%</td>
+                  <td><span class="badge badge-xs badge-primary">QRIS</span></td>
+                  <td class="text-right font-mono font-medium">Rp 4.500.000</td>
+                  <td>
+                    <div class="flex gap-0.5"><button class="btn btn-xs btn-soft btn-circle"><span
+                          class="icon-[tabler--edit] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-circle"><span
+                          class="icon-[tabler--printer] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-warning btn-circle"><span
+                          class="icon-[tabler--package] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-error btn-circle"><span
+                          class="icon-[tabler--trash] size-3"></span></button></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="checkbox checkbox-xs"></td>
+                  <td class="font-mono text-xs text-primary">INV-0003</td>
+                  <td class="font-medium">PT. Sinar Abadi</td>
+                  <td class="text-base-content/60">2026-05-15</td>
+                  <td><span class="badge badge-xs badge-warning">COD Piyungan</span></td>
+                  <td>5%</td>
+                  <td>12%</td>
+                  <td><span class="badge badge-xs badge-secondary">Card</span></td>
+                  <td class="text-right font-mono font-medium">Rp 8.200.000</td>
+                  <td>
+                    <div class="flex gap-0.5"><button class="btn btn-xs btn-soft btn-circle"><span
+                          class="icon-[tabler--edit] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-circle"><span
+                          class="icon-[tabler--printer] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-warning btn-circle"><span
+                          class="icon-[tabler--package] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-error btn-circle"><span
+                          class="icon-[tabler--trash] size-3"></span></button></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="checkbox checkbox-xs"></td>
+                  <td class="font-mono text-xs text-primary">INV-0004</td>
+                  <td class="font-medium">UD. Makmur Sejahtera</td>
+                  <td class="text-base-content/60">2026-05-14</td>
+                  <td><span class="badge badge-xs badge-info">Dikirim</span></td>
+                  <td>15%</td>
+                  <td>11%</td>
+                  <td><span class="badge badge-xs badge-success">Cash</span></td>
+                  <td class="text-right font-mono font-medium">Rp 2.350.000</td>
+                  <td>
+                    <div class="flex gap-0.5"><button class="btn btn-xs btn-soft btn-circle"><span
+                          class="icon-[tabler--edit] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-circle"><span
+                          class="icon-[tabler--printer] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-warning btn-circle"><span
+                          class="icon-[tabler--package] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-error btn-circle"><span
+                          class="icon-[tabler--trash] size-3"></span></button></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="checkbox checkbox-xs"></td>
+                  <td class="font-mono text-xs text-primary">INV-0005</td>
+                  <td class="font-medium">PT. Global Teknik</td>
+                  <td class="text-base-content/60">2026-05-13</td>
+                  <td><span class="badge badge-xs badge-success">COD Berbah</span></td>
+                  <td>-</td>
+                  <td>11%</td>
+                  <td><span class="badge badge-xs badge-primary">QRIS</span></td>
+                  <td class="text-right font-mono font-medium">Rp 12.800.000</td>
+                  <td>
+                    <div class="flex gap-0.5"><button class="btn btn-xs btn-soft btn-circle"><span
+                          class="icon-[tabler--edit] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-circle"><span
+                          class="icon-[tabler--printer] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-warning btn-circle"><span
+                          class="icon-[tabler--package] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-error btn-circle"><span
+                          class="icon-[tabler--trash] size-3"></span></button></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="checkbox checkbox-xs"></td>
+                  <td class="font-mono text-xs text-primary">INV-0006</td>
+                  <td class="font-medium">Toko Jaya Abadi</td>
+                  <td class="text-base-content/60">2026-05-12</td>
+                  <td><span class="badge badge-xs badge-info">Dikirim</span></td>
+                  <td>20%</td>
+                  <td>12%</td>
+                  <td><span class="badge badge-xs badge-secondary">Card</span></td>
+                  <td class="text-right font-mono font-medium">Rp 6.750.000</td>
+                  <td>
+                    <div class="flex gap-0.5"><button class="btn btn-xs btn-soft btn-circle"><span
+                          class="icon-[tabler--edit] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-circle"><span
+                          class="icon-[tabler--printer] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-warning btn-circle"><span
+                          class="icon-[tabler--package] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-error btn-circle"><span
+                          class="icon-[tabler--trash] size-3"></span></button></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="checkbox checkbox-xs"></td>
+                  <td class="font-mono text-xs text-primary">INV-0007</td>
+                  <td class="font-medium">CV. Nusantara</td>
+                  <td class="text-base-content/60">2026-05-11</td>
+                  <td><span class="badge badge-xs badge-warning">COD Piyungan</span></td>
+                  <td>-</td>
+                  <td>11%</td>
+                  <td><span class="badge badge-xs badge-success">Cash</span></td>
+                  <td class="text-right font-mono font-medium">Rp 950.000</td>
+                  <td>
+                    <div class="flex gap-0.5"><button class="btn btn-xs btn-soft btn-circle"><span
+                          class="icon-[tabler--edit] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-circle"><span
+                          class="icon-[tabler--printer] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-warning btn-circle"><span
+                          class="icon-[tabler--package] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-error btn-circle"><span
+                          class="icon-[tabler--trash] size-3"></span></button></div>
+                  </td>
+                </tr>
+                <tr>
+                  <td><input type="checkbox" class="checkbox checkbox-xs"></td>
+                  <td class="font-mono text-xs text-primary">INV-0008</td>
+                  <td class="font-medium">PT. Karya Mandiri</td>
+                  <td class="text-base-content/60">2026-05-10</td>
+                  <td><span class="badge badge-xs badge-success">COD Berbah</span></td>
+                  <td>10%</td>
+                  <td>11%</td>
+                  <td><span class="badge badge-xs badge-primary">QRIS</span></td>
+                  <td class="text-right font-mono font-medium">Rp 3.200.000</td>
+                  <td>
+                    <div class="flex gap-0.5"><button class="btn btn-xs btn-soft btn-circle"><span
+                          class="icon-[tabler--edit] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-circle"><span
+                          class="icon-[tabler--printer] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-warning btn-circle"><span
+                          class="icon-[tabler--package] size-3"></span></button><button
+                        class="btn btn-xs btn-soft btn-error btn-circle"><span
+                          class="icon-[tabler--trash] size-3"></span></button></div>
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+          <div class="lg:hidden flex items-center gap-2 px-3 py-2 border-b border-base-200">
+            <button class="btn btn-xs btn-soft" id="mToggleAll" onclick="mToggleAll()">Select All</button><span
+              class="flex-1"></span><span id="mSelCount" class="text-xs text-primary font-medium"></span>
+          </div>
+          <div class="lg:hidden divide-y divide-base-200" id="mBody">
+            <div class="flex gap-2.5 px-3 py-2.5 cursor-pointer active:bg-base-200" data-id="1" onclick="mToggle(this)">
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-bold">PT. Maju Jaya</p>
+                <p class="text-[10px] font-mono text-primary mt-0.5">INV-0001 <span class="text-base-content/40">·
+                    2026-05-17</span></p>
+                <div class="flex items-center gap-1.5 mt-1"><span class="badge badge-xs badge-success">COD
+                    Berbah</span><span class="badge badge-xs badge-success">Cash</span><span
+                    class="text-[10px] text-base-content/50">Disc 10%</span></div>
+                <p class="text-sm font-bold font-mono mt-1">Rp 15.500.000</p>
+              </div>
+              <div class="shrink-0 flex items-center"><span data-check
+                  class="icon-[tabler--circle] size-5 text-base-content/20"></span></div>
+            </div>
+            <div class="flex gap-2.5 px-3 py-2.5 cursor-pointer active:bg-base-200" data-id="2" onclick="mToggle(this)">
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-bold">CV. Berkah Sentosa</p>
+                <p class="text-[10px] font-mono text-primary mt-0.5">INV-0002 <span class="text-base-content/40">·
+                    2026-05-16</span></p>
+                <div class="flex items-center gap-1.5 mt-1"><span class="badge badge-xs badge-info">Dikirim</span><span
+                    class="badge badge-xs badge-primary">QRIS</span></div>
+                <p class="text-sm font-bold font-mono mt-1">Rp 4.500.000</p>
+              </div>
+              <div class="shrink-0 flex items-center"><span data-check
+                  class="icon-[tabler--circle] size-5 text-base-content/20"></span></div>
+            </div>
+            <div class="flex gap-2.5 px-3 py-2.5 cursor-pointer active:bg-base-200" data-id="3" onclick="mToggle(this)">
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-bold">PT. Sinar Abadi</p>
+                <p class="text-[10px] font-mono text-primary mt-0.5">INV-0003 <span class="text-base-content/40">·
+                    2026-05-15</span></p>
+                <div class="flex items-center gap-1.5 mt-1"><span class="badge badge-xs badge-warning">COD
+                    Piyungan</span><span class="badge badge-xs badge-secondary">Card</span><span
+                    class="text-[10px] text-base-content/50">Disc 5%</span></div>
+                <p class="text-sm font-bold font-mono mt-1">Rp 8.200.000</p>
+              </div>
+              <div class="shrink-0 flex items-center"><span data-check
+                  class="icon-[tabler--circle] size-5 text-base-content/20"></span></div>
+            </div>
+            <div class="flex gap-2.5 px-3 py-2.5 cursor-pointer active:bg-base-200" data-id="4" onclick="mToggle(this)">
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-bold">UD. Makmur Sejahtera</p>
+                <p class="text-[10px] font-mono text-primary mt-0.5">INV-0004 <span class="text-base-content/40">·
+                    2026-05-14</span></p>
+                <div class="flex items-center gap-1.5 mt-1"><span class="badge badge-xs badge-info">Dikirim</span><span
+                    class="badge badge-xs badge-success">Cash</span><span class="text-[10px] text-base-content/50">Disc
+                    15%</span></div>
+                <p class="text-sm font-bold font-mono mt-1">Rp 2.350.000</p>
+              </div>
+              <div class="shrink-0 flex items-center"><span data-check
+                  class="icon-[tabler--circle] size-5 text-base-content/20"></span></div>
+            </div>
+            <div class="flex gap-2.5 px-3 py-2.5 cursor-pointer active:bg-base-200" data-id="5" onclick="mToggle(this)">
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-bold">PT. Global Teknik</p>
+                <p class="text-[10px] font-mono text-primary mt-0.5">INV-0005 <span class="text-base-content/40">·
+                    2026-05-13</span></p>
+                <div class="flex items-center gap-1.5 mt-1"><span class="badge badge-xs badge-success">COD
+                    Berbah</span><span class="badge badge-xs badge-primary">QRIS</span></div>
+                <p class="text-sm font-bold font-mono mt-1">Rp 12.800.000</p>
+              </div>
+              <div class="shrink-0 flex items-center"><span data-check
+                  class="icon-[tabler--circle] size-5 text-base-content/20"></span></div>
+            </div>
+            <div class="flex gap-2.5 px-3 py-2.5 cursor-pointer active:bg-base-200" data-id="6" onclick="mToggle(this)">
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-bold">Toko Jaya Abadi</p>
+                <p class="text-[10px] font-mono text-primary mt-0.5">INV-0006 <span class="text-base-content/40">·
+                    2026-05-12</span></p>
+                <div class="flex items-center gap-1.5 mt-1"><span class="badge badge-xs badge-info">Dikirim</span><span
+                    class="badge badge-xs badge-secondary">Card</span><span
+                    class="text-[10px] text-base-content/50">Disc 20%</span></div>
+                <p class="text-sm font-bold font-mono mt-1">Rp 6.750.000</p>
+              </div>
+              <div class="shrink-0 flex items-center"><span data-check
+                  class="icon-[tabler--circle] size-5 text-base-content/20"></span></div>
+            </div>
+            <div class="flex gap-2.5 px-3 py-2.5 cursor-pointer active:bg-base-200" data-id="7" onclick="mToggle(this)">
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-bold">CV. Nusantara</p>
+                <p class="text-[10px] font-mono text-primary mt-0.5">INV-0007 <span class="text-base-content/40">·
+                    2026-05-11</span></p>
+                <div class="flex items-center gap-1.5 mt-1"><span class="badge badge-xs badge-warning">COD
+                    Piyungan</span><span class="badge badge-xs badge-success">Cash</span></div>
+                <p class="text-sm font-bold font-mono mt-1">Rp 950.000</p>
+              </div>
+              <div class="shrink-0 flex items-center"><span data-check
+                  class="icon-[tabler--circle] size-5 text-base-content/20"></span></div>
+            </div>
+            <div class="flex gap-2.5 px-3 py-2.5 cursor-pointer active:bg-base-200" data-id="8" onclick="mToggle(this)">
+              <div class="flex-1 min-w-0">
+                <p class="text-xs font-bold">PT. Karya Mandiri</p>
+                <p class="text-[10px] font-mono text-primary mt-0.5">INV-0008 <span class="text-base-content/40">·
+                    2026-05-10</span></p>
+                <div class="flex items-center gap-1.5 mt-1"><span class="badge badge-xs badge-success">COD
+                    Berbah</span><span class="badge badge-xs badge-primary">QRIS</span><span
+                    class="text-[10px] text-base-content/50">Disc 10%</span></div>
+                <p class="text-sm font-bold font-mono mt-1">Rp 3.200.000</p>
+              </div>
+              <div class="shrink-0 flex items-center"><span data-check
+                  class="icon-[tabler--circle] size-5 text-base-content/20"></span></div>
+            </div>
+          </div>
+          <!-- Pagination + Delete -->
+          <!-- pagination moved to fixed bar -->
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <!-- Fixed bottom bar: delete left, pagination right -->
+  <div
+    class="fixed bottom-16 lg:bottom-0 left-0 lg:left-56 right-0 bg-base-100 border-t border-base-300 px-3 py-2 z-30 flex items-center justify-between">
+    <div class="flex items-center gap-2">
+      <span class="text-[10px] text-base-content/50">1-8 of 8</span>
+      <div class="join"><button class="btn btn-xs join-item"><span
+            class="icon-[tabler--chevron-left] size-3.5"></span></button><span
+          class="btn btn-xs join-item no-animation font-medium">1/1</span><button class="btn btn-xs join-item"><span
+            class="icon-[tabler--chevron-right] size-3.5"></span></button></div>
+    </div>
+    <div class="flex items-center gap-1.5">
+      <button class="btn btn-xs btn-primary gap-1"><span class="icon-[tabler--plus] size-3.5"></span>Create</button>
+      <button class="btn btn-xs btn-soft btn-error gap-1" onclick="alert('Delete selected')"><span
+          class="icon-[tabler--trash] size-3.5"></span>Delete</button>
     </div>
   </div>
-</aside>
 
-<div class="lg:hidden fixed top-0 left-0 right-0 h-11 bg-base-100 border-b border-base-300 flex items-center px-3 z-50">
-  <button class="btn btn-xs btn-soft" onclick="toggleSB()">☰</button><span class="ml-2 font-semibold text-sm">Orders</span>
-  <div class="flex-1"></div><button class="btn btn-xs btn-primary gap-1"><span class="icon-[tabler--plus] size-3.5"></span>New</button>
-</div>
-
-<main class="lg:ml-56 pt-11 lg:pt-0 pb-28 lg:pb-12">
-  <div class="p-2 lg:p-3 space-y-3">
-    <!-- Breadcrumb -->
-    <nav class="hidden lg:block text-xs" aria-label="Breadcrumb"><ol class="flex items-center gap-1 text-base-content/60"><li><a href="index.html" class="hover:text-primary">Home</a></li><li><span class="icon-[tabler--chevron-right] size-3"></span></li><li class="text-base-content font-medium">Orders</li></ol></nav>
-
-    <!-- Filters -->
-    <div class="card bg-base-100 shadow-sm"><div class="card-body p-3 space-y-2">
-      <div class="grid grid-cols-12 gap-2">
-        <select id="filterShip" class="col-span-6 md:col-span-3 select select-sm" onchange="applyFilter()"><option value="">All Shipping</option><option>COD Berbah</option><option>COD Piyungan</option><option>Dikirim</option></select>
-        <select id="filterPay" class="col-span-6 md:col-span-3 select select-sm" onchange="applyFilter()"><option value="">All Payment</option><option>Cash</option><option>QRIS</option><option>Card</option></select>
-        <select id="perPage" class="col-span-6 md:col-span-3 select select-sm" onchange="page=1;applyFilter()"><option>5</option><option selected>10</option><option>25</option></select>
-        <button class="col-span-6 md:col-span-3 btn btn-sm btn-outline gap-1" onclick="document.getElementById('advFilter').classList.remove('hidden')"><span class="icon-[tabler--filter] size-3.5"></span>Advanced</button>
+  <!-- Advanced Filter -->
+  <div id="advFilter" class="hidden fixed inset-0 z-50">
+    <div class="absolute inset-0 bg-black/40" onclick="document.getElementById('advFilter').classList.add('hidden')">
+    </div>
+    <div class="absolute right-0 top-0 h-full w-80 max-w-[85vw] bg-base-100 shadow-xl p-4 space-y-3 overflow-y-auto">
+      <div class="flex justify-between items-center">
+        <h3 class="text-sm font-bold">Advanced Filter</h3><button class="btn btn-xs btn-soft btn-circle"
+          onclick="document.getElementById('advFilter').classList.add('hidden')"><span
+            class="icon-[tabler--x] size-4"></span></button>
       </div>
-      <div class="join w-full">
-        <span class="join-item btn btn-sm no-animation text-xs">Cari</span>
-        <input type="text" id="searchInput" class="input input-sm join-item flex-1" placeholder="Customer atau invoice..." onkeydown="if(event.key==='Enter')applyFilter()">
-        <button class="btn btn-sm btn-primary join-item" onclick="applyFilter()"><span class="icon-[tabler--search] size-3.5"></span></button>
+      <div><label class="label-text text-xs">From</label><input type="date" id="afFrom" class="input input-sm w-full">
       </div>
-    </div></div>
-
-    <!-- Table -->
-    <div class="card bg-base-100 shadow-sm"><div class="card-body p-0">
-      <div class="hidden lg:block overflow-x-auto">
-        <table class="table table-xs w-full">
-          <thead><tr>
-            <th><input type="checkbox" class="checkbox checkbox-xs" onchange="toggleAll(this)"></th>
-            <th>Invoice</th>
-            <th class="cursor-pointer select-none" onclick="sortBy('cust')">Customer <span class="icon-[tabler--arrows-sort] size-3 align-middle text-base-content/40"></span></th>
-            <th class="cursor-pointer select-none" onclick="sortBy('date')">Tanggal <span class="icon-[tabler--arrows-sort] size-3 align-middle text-base-content/40"></span></th>
-            <th>Pengiriman</th>
-            <th class="cursor-pointer select-none" onclick="sortBy('disc')">Disc <span class="icon-[tabler--arrows-sort] size-3 align-middle text-base-content/40"></span></th>
-            <th>Tax</th>
-            <th>Payment</th>
-            <th class="cursor-pointer select-none text-right" onclick="sortBy('total')">Total <span class="icon-[tabler--arrows-sort] size-3 align-middle text-base-content/40"></span></th>
-            <th>Actions</th>
-          </tr></thead>
-          <tbody id="tBody">
-            <tr><td><input type="checkbox" class="checkbox checkbox-xs"></td><td class="font-mono text-xs text-primary">INV-0001</td><td class="font-medium">PT. Maju Jaya</td><td class="text-base-content/60">2026-05-17</td><td><span class="badge badge-xs badge-success">COD Berbah</span></td><td>10%</td><td>11%</td><td><span class="badge badge-xs badge-success">Cash</span></td><td class="text-right font-mono font-medium">Rp 15.500.000</td><td><div class="flex gap-0.5"><button class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--edit] size-3"></span></button><button class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--printer] size-3"></span></button><button class="btn btn-xs btn-soft btn-warning btn-circle"><span class="icon-[tabler--package] size-3"></span></button><button class="btn btn-xs btn-soft btn-error btn-circle"><span class="icon-[tabler--trash] size-3"></span></button></div></td></tr>
-            <tr><td><input type="checkbox" class="checkbox checkbox-xs"></td><td class="font-mono text-xs text-primary">INV-0002</td><td class="font-medium">CV. Berkah Sentosa</td><td class="text-base-content/60">2026-05-16</td><td><span class="badge badge-xs badge-info">Dikirim</span></td><td>-</td><td>11%</td><td><span class="badge badge-xs badge-primary">QRIS</span></td><td class="text-right font-mono font-medium">Rp 4.500.000</td><td><div class="flex gap-0.5"><button class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--edit] size-3"></span></button><button class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--printer] size-3"></span></button><button class="btn btn-xs btn-soft btn-warning btn-circle"><span class="icon-[tabler--package] size-3"></span></button><button class="btn btn-xs btn-soft btn-error btn-circle"><span class="icon-[tabler--trash] size-3"></span></button></div></td></tr>
-            <tr><td><input type="checkbox" class="checkbox checkbox-xs"></td><td class="font-mono text-xs text-primary">INV-0003</td><td class="font-medium">PT. Sinar Abadi</td><td class="text-base-content/60">2026-05-15</td><td><span class="badge badge-xs badge-warning">COD Piyungan</span></td><td>5%</td><td>12%</td><td><span class="badge badge-xs badge-secondary">Card</span></td><td class="text-right font-mono font-medium">Rp 8.200.000</td><td><div class="flex gap-0.5"><button class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--edit] size-3"></span></button><button class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--printer] size-3"></span></button><button class="btn btn-xs btn-soft btn-warning btn-circle"><span class="icon-[tabler--package] size-3"></span></button><button class="btn btn-xs btn-soft btn-error btn-circle"><span class="icon-[tabler--trash] size-3"></span></button></div></td></tr>
-            <tr><td><input type="checkbox" class="checkbox checkbox-xs"></td><td class="font-mono text-xs text-primary">INV-0004</td><td class="font-medium">UD. Makmur Sejahtera</td><td class="text-base-content/60">2026-05-14</td><td><span class="badge badge-xs badge-info">Dikirim</span></td><td>15%</td><td>11%</td><td><span class="badge badge-xs badge-success">Cash</span></td><td class="text-right font-mono font-medium">Rp 2.350.000</td><td><div class="flex gap-0.5"><button class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--edit] size-3"></span></button><button class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--printer] size-3"></span></button><button class="btn btn-xs btn-soft btn-warning btn-circle"><span class="icon-[tabler--package] size-3"></span></button><button class="btn btn-xs btn-soft btn-error btn-circle"><span class="icon-[tabler--trash] size-3"></span></button></div></td></tr>
-            <tr><td><input type="checkbox" class="checkbox checkbox-xs"></td><td class="font-mono text-xs text-primary">INV-0005</td><td class="font-medium">PT. Global Teknik</td><td class="text-base-content/60">2026-05-13</td><td><span class="badge badge-xs badge-success">COD Berbah</span></td><td>-</td><td>11%</td><td><span class="badge badge-xs badge-primary">QRIS</span></td><td class="text-right font-mono font-medium">Rp 12.800.000</td><td><div class="flex gap-0.5"><button class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--edit] size-3"></span></button><button class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--printer] size-3"></span></button><button class="btn btn-xs btn-soft btn-warning btn-circle"><span class="icon-[tabler--package] size-3"></span></button><button class="btn btn-xs btn-soft btn-error btn-circle"><span class="icon-[tabler--trash] size-3"></span></button></div></td></tr>
-            <tr><td><input type="checkbox" class="checkbox checkbox-xs"></td><td class="font-mono text-xs text-primary">INV-0006</td><td class="font-medium">Toko Jaya Abadi</td><td class="text-base-content/60">2026-05-12</td><td><span class="badge badge-xs badge-info">Dikirim</span></td><td>20%</td><td>12%</td><td><span class="badge badge-xs badge-secondary">Card</span></td><td class="text-right font-mono font-medium">Rp 6.750.000</td><td><div class="flex gap-0.5"><button class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--edit] size-3"></span></button><button class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--printer] size-3"></span></button><button class="btn btn-xs btn-soft btn-warning btn-circle"><span class="icon-[tabler--package] size-3"></span></button><button class="btn btn-xs btn-soft btn-error btn-circle"><span class="icon-[tabler--trash] size-3"></span></button></div></td></tr>
-            <tr><td><input type="checkbox" class="checkbox checkbox-xs"></td><td class="font-mono text-xs text-primary">INV-0007</td><td class="font-medium">CV. Nusantara</td><td class="text-base-content/60">2026-05-11</td><td><span class="badge badge-xs badge-warning">COD Piyungan</span></td><td>-</td><td>11%</td><td><span class="badge badge-xs badge-success">Cash</span></td><td class="text-right font-mono font-medium">Rp 950.000</td><td><div class="flex gap-0.5"><button class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--edit] size-3"></span></button><button class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--printer] size-3"></span></button><button class="btn btn-xs btn-soft btn-warning btn-circle"><span class="icon-[tabler--package] size-3"></span></button><button class="btn btn-xs btn-soft btn-error btn-circle"><span class="icon-[tabler--trash] size-3"></span></button></div></td></tr>
-            <tr><td><input type="checkbox" class="checkbox checkbox-xs"></td><td class="font-mono text-xs text-primary">INV-0008</td><td class="font-medium">PT. Karya Mandiri</td><td class="text-base-content/60">2026-05-10</td><td><span class="badge badge-xs badge-success">COD Berbah</span></td><td>10%</td><td>11%</td><td><span class="badge badge-xs badge-primary">QRIS</span></td><td class="text-right font-mono font-medium">Rp 3.200.000</td><td><div class="flex gap-0.5"><button class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--edit] size-3"></span></button><button class="btn btn-xs btn-soft btn-circle"><span class="icon-[tabler--printer] size-3"></span></button><button class="btn btn-xs btn-soft btn-warning btn-circle"><span class="icon-[tabler--package] size-3"></span></button><button class="btn btn-xs btn-soft btn-error btn-circle"><span class="icon-[tabler--trash] size-3"></span></button></div></td></tr>
-          </tbody>
-        </table>
-      </div>
-      <div class="lg:hidden flex items-center gap-2 px-3 py-2 border-b border-base-200">
-        <button class="btn btn-xs btn-soft" id="mToggleAll" onclick="mToggleAll()">Select All</button><span class="flex-1"></span><span id="mSelCount" class="text-xs text-primary font-medium"></span>
-      </div>
-      <div class="lg:hidden divide-y divide-base-200" id="mBody">
-        <div class="flex gap-2.5 px-3 py-2.5 cursor-pointer active:bg-base-200" data-id="1" onclick="mToggle(this)"><div class="flex-1 min-w-0"><p class="text-xs font-bold">PT. Maju Jaya</p><p class="text-[10px] font-mono text-primary mt-0.5">INV-0001 <span class="text-base-content/40">· 2026-05-17</span></p><div class="flex items-center gap-1.5 mt-1"><span class="badge badge-xs badge-success">COD Berbah</span><span class="badge badge-xs badge-success">Cash</span><span class="text-[10px] text-base-content/50">Disc 10%</span></div><p class="text-sm font-bold font-mono mt-1">Rp 15.500.000</p></div><div class="shrink-0 flex items-center"><span data-check class="icon-[tabler--circle] size-5 text-base-content/20"></span></div></div>
-        <div class="flex gap-2.5 px-3 py-2.5 cursor-pointer active:bg-base-200" data-id="2" onclick="mToggle(this)"><div class="flex-1 min-w-0"><p class="text-xs font-bold">CV. Berkah Sentosa</p><p class="text-[10px] font-mono text-primary mt-0.5">INV-0002 <span class="text-base-content/40">· 2026-05-16</span></p><div class="flex items-center gap-1.5 mt-1"><span class="badge badge-xs badge-info">Dikirim</span><span class="badge badge-xs badge-primary">QRIS</span></div><p class="text-sm font-bold font-mono mt-1">Rp 4.500.000</p></div><div class="shrink-0 flex items-center"><span data-check class="icon-[tabler--circle] size-5 text-base-content/20"></span></div></div>
-        <div class="flex gap-2.5 px-3 py-2.5 cursor-pointer active:bg-base-200" data-id="3" onclick="mToggle(this)"><div class="flex-1 min-w-0"><p class="text-xs font-bold">PT. Sinar Abadi</p><p class="text-[10px] font-mono text-primary mt-0.5">INV-0003 <span class="text-base-content/40">· 2026-05-15</span></p><div class="flex items-center gap-1.5 mt-1"><span class="badge badge-xs badge-warning">COD Piyungan</span><span class="badge badge-xs badge-secondary">Card</span><span class="text-[10px] text-base-content/50">Disc 5%</span></div><p class="text-sm font-bold font-mono mt-1">Rp 8.200.000</p></div><div class="shrink-0 flex items-center"><span data-check class="icon-[tabler--circle] size-5 text-base-content/20"></span></div></div>
-        <div class="flex gap-2.5 px-3 py-2.5 cursor-pointer active:bg-base-200" data-id="4" onclick="mToggle(this)"><div class="flex-1 min-w-0"><p class="text-xs font-bold">UD. Makmur Sejahtera</p><p class="text-[10px] font-mono text-primary mt-0.5">INV-0004 <span class="text-base-content/40">· 2026-05-14</span></p><div class="flex items-center gap-1.5 mt-1"><span class="badge badge-xs badge-info">Dikirim</span><span class="badge badge-xs badge-success">Cash</span><span class="text-[10px] text-base-content/50">Disc 15%</span></div><p class="text-sm font-bold font-mono mt-1">Rp 2.350.000</p></div><div class="shrink-0 flex items-center"><span data-check class="icon-[tabler--circle] size-5 text-base-content/20"></span></div></div>
-        <div class="flex gap-2.5 px-3 py-2.5 cursor-pointer active:bg-base-200" data-id="5" onclick="mToggle(this)"><div class="flex-1 min-w-0"><p class="text-xs font-bold">PT. Global Teknik</p><p class="text-[10px] font-mono text-primary mt-0.5">INV-0005 <span class="text-base-content/40">· 2026-05-13</span></p><div class="flex items-center gap-1.5 mt-1"><span class="badge badge-xs badge-success">COD Berbah</span><span class="badge badge-xs badge-primary">QRIS</span></div><p class="text-sm font-bold font-mono mt-1">Rp 12.800.000</p></div><div class="shrink-0 flex items-center"><span data-check class="icon-[tabler--circle] size-5 text-base-content/20"></span></div></div>
-        <div class="flex gap-2.5 px-3 py-2.5 cursor-pointer active:bg-base-200" data-id="6" onclick="mToggle(this)"><div class="flex-1 min-w-0"><p class="text-xs font-bold">Toko Jaya Abadi</p><p class="text-[10px] font-mono text-primary mt-0.5">INV-0006 <span class="text-base-content/40">· 2026-05-12</span></p><div class="flex items-center gap-1.5 mt-1"><span class="badge badge-xs badge-info">Dikirim</span><span class="badge badge-xs badge-secondary">Card</span><span class="text-[10px] text-base-content/50">Disc 20%</span></div><p class="text-sm font-bold font-mono mt-1">Rp 6.750.000</p></div><div class="shrink-0 flex items-center"><span data-check class="icon-[tabler--circle] size-5 text-base-content/20"></span></div></div>
-        <div class="flex gap-2.5 px-3 py-2.5 cursor-pointer active:bg-base-200" data-id="7" onclick="mToggle(this)"><div class="flex-1 min-w-0"><p class="text-xs font-bold">CV. Nusantara</p><p class="text-[10px] font-mono text-primary mt-0.5">INV-0007 <span class="text-base-content/40">· 2026-05-11</span></p><div class="flex items-center gap-1.5 mt-1"><span class="badge badge-xs badge-warning">COD Piyungan</span><span class="badge badge-xs badge-success">Cash</span></div><p class="text-sm font-bold font-mono mt-1">Rp 950.000</p></div><div class="shrink-0 flex items-center"><span data-check class="icon-[tabler--circle] size-5 text-base-content/20"></span></div></div>
-        <div class="flex gap-2.5 px-3 py-2.5 cursor-pointer active:bg-base-200" data-id="8" onclick="mToggle(this)"><div class="flex-1 min-w-0"><p class="text-xs font-bold">PT. Karya Mandiri</p><p class="text-[10px] font-mono text-primary mt-0.5">INV-0008 <span class="text-base-content/40">· 2026-05-10</span></p><div class="flex items-center gap-1.5 mt-1"><span class="badge badge-xs badge-success">COD Berbah</span><span class="badge badge-xs badge-primary">QRIS</span><span class="text-[10px] text-base-content/50">Disc 10%</span></div><p class="text-sm font-bold font-mono mt-1">Rp 3.200.000</p></div><div class="shrink-0 flex items-center"><span data-check class="icon-[tabler--circle] size-5 text-base-content/20"></span></div></div>
-      </div>
-      <!-- Pagination + Delete -->
-      <!-- pagination moved to fixed bar -->
-    </div></div>
+      <div><label class="label-text text-xs">To</label><input type="date" id="afTo" class="input input-sm w-full"></div>
+      <div><label class="label-text text-xs">Min Total</label><input type="number" id="afMin"
+          class="input input-sm w-full" placeholder="0"></div>
+      <div><label class="label-text text-xs">Max Total</label><input type="number" id="afMax"
+          class="input input-sm w-full" placeholder="∞"></div>
+      <button class="btn btn-sm btn-primary btn-block"
+        onclick="page=1;applyFilter();document.getElementById('advFilter').classList.add('hidden')">Apply</button>
+      <button class="btn btn-sm btn-soft btn-block"
+        onclick="document.getElementById('afFrom').value='';document.getElementById('afTo').value='';document.getElementById('afMin').value='';document.getElementById('afMax').value='';applyFilter()">Reset</button>
+    </div>
   </div>
-</main>
 
-<!-- Fixed bottom bar: delete left, pagination right -->
-<div class="fixed bottom-12 lg:bottom-0 left-0 lg:left-56 right-0 bg-base-100 border-t border-base-300 px-3 py-2 z-30 flex items-center justify-between">
-  <div class="flex items-center gap-2">
-    <span class="text-[10px] text-base-content/50">1-8 of 8</span>
-    <div class="join"><button class="btn btn-xs join-item"><span class="icon-[tabler--chevron-left] size-3.5"></span></button><span class="btn btn-xs join-item no-animation font-medium">1/1</span><button class="btn btn-xs join-item"><span class="icon-[tabler--chevron-right] size-3.5"></span></button></div>
-  </div>
-  <div class="flex items-center gap-1.5">
-    <button class="btn btn-xs btn-primary gap-1"><span class="icon-[tabler--plus] size-3.5"></span>Create</button>
-    <button class="btn btn-xs btn-soft btn-error gap-1" onclick="alert('Delete selected')"><span class="icon-[tabler--trash] size-3.5"></span>Delete</button>
-  </div>
-</div>
+  <!-- Footer Nav (mobile) -->
+  <footer class="lg:hidden fixed bottom-0 left-0 right-0 bg-base-100 border-t border-base-300 z-40">
+    <div class="flex justify-around items-center py-2">
+      <a href="invoice.html" class="flex flex-col items-center gap-0.5 text-base-content/50"><span class="icon-[tabler--file-invoice] size-6"></span><span class="text-[10px]">Invoice</span></a>
+      <a href="pos.html" class="flex flex-col items-center gap-0.5 text-base-content/50"><span class="icon-[tabler--shopping-cart] size-6"></span><span class="text-[10px]">POS</span></a>
+      <a href="index.html" class="flex flex-col items-center gap-0.5 -mt-4"><span class="btn btn-circle btn-primary shadow-md"><span class="icon-[tabler--home] size-6"></span></span><span class="text-[10px] mt-0.5">Home</span></a>
+      <a href="table.html" class="flex flex-col items-center gap-0.5 text-primary"><span class="icon-[tabler--list-details] size-6"></span><span class="text-[10px] font-medium">Orders</span></a>
+      <a href="#" class="flex flex-col items-center gap-0.5 text-base-content/50"><span class="icon-[tabler--user] size-6"></span><span class="text-[10px]">Profile</span></a>
+    </div>
+  </footer>
 
-<!-- Advanced Filter -->
-<div id="advFilter" class="hidden fixed inset-0 z-50">
-  <div class="absolute inset-0 bg-black/40" onclick="document.getElementById('advFilter').classList.add('hidden')"></div>
-  <div class="absolute right-0 top-0 h-full w-80 max-w-[85vw] bg-base-100 shadow-xl p-4 space-y-3 overflow-y-auto">
-    <div class="flex justify-between items-center"><h3 class="text-sm font-bold">Advanced Filter</h3><button class="btn btn-xs btn-soft btn-circle" onclick="document.getElementById('advFilter').classList.add('hidden')"><span class="icon-[tabler--x] size-4"></span></button></div>
-    <div><label class="label-text text-xs">From</label><input type="date" id="afFrom" class="input input-sm w-full"></div>
-    <div><label class="label-text text-xs">To</label><input type="date" id="afTo" class="input input-sm w-full"></div>
-    <div><label class="label-text text-xs">Min Total</label><input type="number" id="afMin" class="input input-sm w-full" placeholder="0"></div>
-    <div><label class="label-text text-xs">Max Total</label><input type="number" id="afMax" class="input input-sm w-full" placeholder="∞"></div>
-    <button class="btn btn-sm btn-primary btn-block" onclick="page=1;applyFilter();document.getElementById('advFilter').classList.add('hidden')">Apply</button>
-    <button class="btn btn-sm btn-soft btn-block" onclick="document.getElementById('afFrom').value='';document.getElementById('afTo').value='';document.getElementById('afMin').value='';document.getElementById('afMax').value='';applyFilter()">Reset</button>
-  </div>
-</div>
 
-<!-- Footer Nav (mobile) -->
-<footer class="lg:hidden fixed bottom-0 left-0 right-0 bg-base-100 border-t border-base-300 z-40">
-  <div class="flex justify-around items-center py-1.5">
-    <a href="invoice.html" class="flex flex-col items-center gap-0.5 text-base-content/50"><span class="icon-[tabler--file-invoice] size-5"></span><span class="text-[9px]">Invoice</span></a>
-    <a href="pos.html" class="flex flex-col items-center gap-0.5 text-base-content/50"><span class="icon-[tabler--shopping-cart] size-5"></span><span class="text-[9px]">POS</span></a>
-    <a href="index.html" class="flex flex-col items-center gap-0.5 -mt-4"><span class="btn btn-circle btn-sm btn-primary shadow-md"><span class="icon-[tabler--home] size-5"></span></span><span class="text-[9px] mt-0.5">Home</span></a>
-    <a href="table.html" class="flex flex-col items-center gap-0.5 text-primary"><span class="icon-[tabler--list-details] size-5"></span><span class="text-[9px] font-medium">Orders</span></a>
-    <a href="#" class="flex flex-col items-center gap-0.5 text-base-content/50"><span class="icon-[tabler--user] size-5"></span><span class="text-[9px]">Profile</span></a>
-  </div>
-</footer>
+  <script>
+    let selected = new Set(), sortCol = '', sortDir = 1;
+    function toggleSB() { document.getElementById('sb').classList.toggle('-translate-x-full'); document.getElementById('ov').classList.toggle('hidden'); }
+    function closeSB() { document.getElementById('sb').classList.add('-translate-x-full'); document.getElementById('ov').classList.add('hidden'); }
+    document.querySelector('main').addEventListener('click', () => { if (innerWidth < 1024) closeSB(); });
+    document.addEventListener('click', function (e) { const m = document.getElementById('profMenu2'); if (m && !m.classList.contains('hidden') && !e.target.closest('[onclick*="profMenu2"]') && !m.contains(e.target)) m.classList.add('hidden'); });
 
-<script>
-let selected=new Set(),sortCol='',sortDir=1;
-function toggleSB(){document.getElementById('sb').classList.toggle('-translate-x-full');document.getElementById('ov').classList.toggle('hidden');}
-function closeSB(){document.getElementById('sb').classList.add('-translate-x-full');document.getElementById('ov').classList.add('hidden');}
-document.querySelector('main').addEventListener('click',()=>{if(innerWidth<1024)closeSB();});
-document.addEventListener('click',function(e){const m=document.getElementById('profMenu2');if(m&&!m.classList.contains('hidden')&&!e.target.closest('[onclick*="profMenu2"]')&&!m.contains(e.target))m.classList.add('hidden');});
+    // Sort
+    function sortBy(col) {
+      const tbody = document.getElementById('tBody');
+      const rows = [...tbody.querySelectorAll('tr')];
+      if (sortCol === col) sortDir *= -1; else { sortCol = col; sortDir = 1; }
+      const colIdx = { cust: 2, date: 3, disc: 5, total: 8 }[col];
+      rows.sort((a, b) => {
+        let av = a.cells[colIdx].textContent.trim(), bv = b.cells[colIdx].textContent.trim();
+        if (col === 'total' || col === 'disc') { av = parseInt(av.replace(/[^\d]/g, '')) || 0; bv = parseInt(bv.replace(/[^\d]/g, '')) || 0; return (av - bv) * sortDir; }
+        return av.localeCompare(bv) * sortDir;
+      });
+      rows.forEach(r => tbody.appendChild(r));
+      syncURL();
+    }
 
-// Sort
-function sortBy(col){
-  const tbody=document.getElementById('tBody');
-  const rows=[...tbody.querySelectorAll('tr')];
-  if(sortCol===col)sortDir*=-1;else{sortCol=col;sortDir=1;}
-  const colIdx={cust:2,date:3,disc:5,total:8}[col];
-  rows.sort((a,b)=>{
-    let av=a.cells[colIdx].textContent.trim(),bv=b.cells[colIdx].textContent.trim();
-    if(col==='total'||col==='disc'){av=parseInt(av.replace(/[^\d]/g,''))||0;bv=parseInt(bv.replace(/[^\d]/g,''))||0;return(av-bv)*sortDir;}
-    return av.localeCompare(bv)*sortDir;
-  });
-  rows.forEach(r=>tbody.appendChild(r));
-  syncURL();
-}
+    // Desktop select all
+    function toggleAll(el) {
+      document.querySelectorAll('#tBody .checkbox').forEach(c => { c.checked = el.checked; });
+      syncURL();
+    }
 
-// Desktop select all
-function toggleAll(el){
-  document.querySelectorAll('#tBody .checkbox').forEach(c=>{c.checked=el.checked;});
-  syncURL();
-}
+    // Mobile select
+    function mToggle(el) {
+      el.classList.toggle('bg-primary/5'); el.classList.toggle('border-l-2'); el.classList.toggle('border-l-primary');
+      const icon = el.querySelector('[data-check]');
+      if (el.classList.contains('bg-primary/5')) { icon.className = 'icon-[tabler--circle-check-filled] size-5 text-primary'; selected.add(el.dataset.id); }
+      else { icon.className = 'icon-[tabler--circle] size-5 text-base-content/20'; selected.delete(el.dataset.id); }
+      document.getElementById('mSelCount').textContent = selected.size ? selected.size + ' selected' : '';
+      document.getElementById('mToggleAll').textContent = selected.size ? 'Unselect' : 'Select All';
+      syncURL();
+    }
+    function mToggleAll() {
+      if (selected.size) { selected.clear(); document.querySelectorAll('#mBody > div').forEach(el => { el.classList.remove('bg-primary/5', 'border-l-2', 'border-l-primary'); el.querySelector('[data-check]').className = 'icon-[tabler--circle] size-5 text-base-content/20'; }); }
+      else { document.querySelectorAll('#mBody > div').forEach(el => { el.classList.add('bg-primary/5', 'border-l-2', 'border-l-primary'); el.querySelector('[data-check]').className = 'icon-[tabler--circle-check-filled] size-5 text-primary'; selected.add(el.dataset.id); }); }
+      document.getElementById('mSelCount').textContent = selected.size ? selected.size + ' selected' : '';
+      document.getElementById('mToggleAll').textContent = selected.size ? 'Unselect' : 'Select All';
+      syncURL();
+    }
 
-// Mobile select
-function mToggle(el){
-  el.classList.toggle('bg-primary/5');el.classList.toggle('border-l-2');el.classList.toggle('border-l-primary');
-  const icon=el.querySelector('[data-check]');
-  if(el.classList.contains('bg-primary/5')){icon.className='icon-[tabler--circle-check-filled] size-5 text-primary';selected.add(el.dataset.id);}
-  else{icon.className='icon-[tabler--circle] size-5 text-base-content/20';selected.delete(el.dataset.id);}
-  document.getElementById('mSelCount').textContent=selected.size?selected.size+' selected':'';
-  document.getElementById('mToggleAll').textContent=selected.size?'Unselect':'Select All';
-  syncURL();
-}
-function mToggleAll(){
-  if(selected.size){selected.clear();document.querySelectorAll('#mBody > div').forEach(el=>{el.classList.remove('bg-primary/5','border-l-2','border-l-primary');el.querySelector('[data-check]').className='icon-[tabler--circle] size-5 text-base-content/20';});}
-  else{document.querySelectorAll('#mBody > div').forEach(el=>{el.classList.add('bg-primary/5','border-l-2','border-l-primary');el.querySelector('[data-check]').className='icon-[tabler--circle-check-filled] size-5 text-primary';selected.add(el.dataset.id);});}
-  document.getElementById('mSelCount').textContent=selected.size?selected.size+' selected':'';
-  document.getElementById('mToggleAll').textContent=selected.size?'Unselect':'Select All';
-  syncURL();
-}
-
-// URL sync - Laravel Purity format: ?filters[field][$operator]=value&sort=field,-field
-function syncURL(){
-  const params=new URLSearchParams();
-  const q=document.getElementById('searchInput').value;
-  const ship=document.getElementById('filterShip').value;
-  const pay=document.getElementById('filterPay').value;
-  if(q)params.set('filters[customer][$contains]',q);
-  if(ship)params.set('filters[shipping][$eq]',ship);
-  if(pay)params.set('filters[payment][$eq]',pay);
-  if(sortCol)params.set('sort',sortDir===1?sortCol:'-'+sortCol);
-  if(selected.size){const allMobile=document.querySelectorAll('#mBody > div').length;if(selected.size>=allMobile)params.set('selected','all');}
-  const checked=[...document.querySelectorAll('#tBody .checkbox')];const checkedCount=checked.filter(c=>c.checked).length;
-  if(checkedCount&&checkedCount>=checked.length)params.set('selected','all');
-  const qs=params.toString();
-  history.replaceState(null,'',qs?'?'+qs:location.pathname);
-}
-function applyFilter(){syncURL();}
-</script>
+    // URL sync - Laravel Purity format: ?filters[field][$operator]=value&sort=field,-field
+    function syncURL() {
+      const params = new URLSearchParams();
+      const q = document.getElementById('searchInput').value;
+      const ship = document.getElementById('filterShip').value;
+      const pay = document.getElementById('filterPay').value;
+      if (q) params.set('filters[customer][$contains]', q);
+      if (ship) params.set('filters[shipping][$eq]', ship);
+      if (pay) params.set('filters[payment][$eq]', pay);
+      if (sortCol) params.set('sort', sortDir === 1 ? sortCol : '-' + sortCol);
+      if (selected.size) { const allMobile = document.querySelectorAll('#mBody > div').length; if (selected.size >= allMobile) params.set('selected', 'all'); }
+      const checked = [...document.querySelectorAll('#tBody .checkbox')]; const checkedCount = checked.filter(c => c.checked).length;
+      if (checkedCount && checkedCount >= checked.length) params.set('selected', 'all');
+      const qs = params.toString();
+      history.replaceState(null, '', qs ? '?' + qs : location.pathname);
+    }
+    function applyFilter() { syncURL(); }
+  </script>
 </body>
+
 </html>
