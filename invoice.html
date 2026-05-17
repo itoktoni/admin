@@ -22,10 +22,19 @@
     <a href="invoice.html" class="btn btn-sm btn-primary w-full justify-start gap-2"><span class="icon-[tabler--file-invoice] size-4"></span>Invoice</a>
     <a href="pos.html" class="btn btn-sm btn-soft w-full justify-start gap-2"><span class="icon-[tabler--shopping-cart] size-4"></span>POS</a>
   </nav>
-  <div class="p-2 border-t border-base-300 flex items-center gap-2">
-    <div class="avatar placeholder"><div class="bg-primary text-primary-content w-7 rounded-full"><span class="text-xs">JD</span></div></div>
-    <p class="text-xs font-medium flex-1 truncate">John Doe</p>
-    <button class="btn btn-xs btn-soft btn-error">⏻</button>
+  <div class="p-2 border-t border-base-300 relative">
+    <button onclick="document.getElementById('profMenu').classList.toggle('hidden')" class="flex items-center gap-2 w-full px-2 py-1.5 rounded-md hover:bg-base-200 cursor-pointer">
+      <div class="avatar placeholder"><div class="bg-primary text-primary-content w-7 rounded-full"><span class="text-xs">JD</span></div></div>
+      <div class="flex-1 min-w-0 text-left"><p class="text-xs font-medium truncate">John Doe</p><p class="text-[10px] text-base-content/50 truncate">john@acme.co.id</p></div>
+      <span class="icon-[tabler--dots-vertical] size-4 text-base-content/40"></span>
+    </button>
+    <div id="profMenu" class="hidden absolute bottom-full left-2 right-2 mb-1 bg-base-100 border border-base-300 rounded-lg shadow-lg z-50 py-1">
+      <a href="#" class="flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-base-200"><span class="icon-[tabler--user] size-4"></span>Profile</a>
+      <a href="#" class="flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-base-200"><span class="icon-[tabler--settings] size-4"></span>Settings</a>
+      <a href="#" class="flex items-center gap-2 px-3 py-1.5 text-xs hover:bg-base-200"><span class="icon-[tabler--credit-card] size-4"></span>Billing</a>
+      <div class="border-t border-base-200 my-1"></div>
+      <a href="#" class="flex items-center gap-2 px-3 py-1.5 text-xs text-error hover:bg-base-200"><span class="icon-[tabler--logout] size-4"></span>Logout</a>
+    </div>
   </div>
 </aside>
 <div class="lg:hidden fixed top-0 left-0 right-0 bg-base-100 border-b border-base-300 z-50 no-print">
@@ -43,17 +52,17 @@
 </div>
 
 <main class="main lg:ml-56 pt-14 lg:pt-0 pb-16 lg:pb-14">
-  <div class="p-3 lg:p-4 max-w-5xl mx-auto space-y-4" id="invoiceContent">
+  <div class="p-2 lg:p-4 space-y-4" id="invoiceContent">
     <nav class="text-xs no-print" aria-label="Breadcrumb"><ol class="flex items-center gap-1 text-base-content/60"><li><a href="#" class="hover:text-primary">Home</a></li><li><span class="icon-[tabler--chevron-right] size-3"></span></li><li><a href="#" class="hover:text-primary">Invoice</a></li><li><span class="icon-[tabler--chevron-right] size-3"></span></li><li class="text-base-content font-medium">Create</li></ol></nav>
     <h2 class="text-lg font-bold">Invoice Generator</h2>
 
     <!-- Header -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-      <div class="card bg-base-100 shadow-sm"><div class="card-body p-3">
+    <div class="grid grid-cols-12 gap-3">
+      <div class="col-span-12 md:col-span-6 card bg-base-100 shadow-sm"><div class="card-body p-3">
         <div class="flex items-center gap-2 mb-2"><div class="avatar placeholder"><div class="bg-primary text-primary-content w-8 rounded"><span class="text-xs">AC</span></div></div><strong class="text-sm">PT. Acme Indonesia</strong></div>
         <p class="text-xs text-base-content/70">Jl. Sudirman Kav. 52-53, Jakarta 12190<br>📞 (021) 555-0123 · ✉️ billing@acme.co.id</p>
       </div></div>
-      <div class="card bg-base-100 shadow-sm"><div class="card-body p-3 space-y-2">
+      <div class="col-span-12 md:col-span-6 card bg-base-100 shadow-sm"><div class="card-body p-3 space-y-2">
         <div class="flex justify-between items-center"><span class="text-xs text-base-content/70">Invoice #</span><span class="font-mono font-bold text-xs">INV-2026-0001</span></div>
         <div class="flex justify-between items-center"><span class="text-xs text-base-content/70">Date</span><input type="text" id="invDate" class="input input-xs w-28 text-right"></div>
         <div class="flex justify-between items-center"><span class="text-xs text-base-content/70">Due</span><input type="text" id="dueDate" class="input input-xs w-28 text-right"></div>
@@ -65,9 +74,9 @@
     <div class="card bg-base-100 shadow-sm"><div class="card-body p-3">
       <h3 class="text-xs font-bold mb-2">Customer</h3>
       <select id="custSel"><option value="">Search customer...</option></select>
-      <div id="custInfo" class="hidden mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
-        <div class="bg-base-200 rounded p-2"><p class="text-[10px] font-bold text-base-content/50 uppercase">Billing</p><p class="text-xs font-medium" id="cN"></p><p class="text-xs text-base-content/70" id="cA"></p></div>
-        <div class="bg-base-200 rounded p-2"><p class="text-[10px] font-bold text-base-content/50 uppercase">Shipping</p><p class="text-xs font-medium" id="cN2"></p><p class="text-xs text-base-content/70" id="cA2"></p></div>
+      <div id="custInfo" class="hidden mt-2 grid grid-cols-12 gap-2">
+        <div class="col-span-12 md:col-span-6 bg-base-200 rounded p-2"><p class="text-[10px] font-bold text-base-content/50 uppercase">Billing</p><p class="text-xs font-medium" id="cN"></p><p class="text-xs text-base-content/70" id="cA"></p></div>
+        <div class="col-span-12 md:col-span-6 bg-base-200 rounded p-2"><p class="text-[10px] font-bold text-base-content/50 uppercase">Shipping</p><p class="text-xs font-medium" id="cN2"></p><p class="text-xs text-base-content/70" id="cA2"></p></div>
       </div>
     </div></div>
 
@@ -82,9 +91,9 @@
     </div></div>
 
     <!-- Summary -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
-      <div class="card bg-base-100 shadow-sm"><div class="card-body p-3"><h3 class="text-xs font-bold mb-1">Notes / Terms</h3><div id="editor" style="height:120px"></div></div></div>
-      <div class="card bg-base-100 shadow-sm"><div class="card-body p-3 space-y-1.5">
+    <div class="grid grid-cols-12 gap-3">
+      <div class="col-span-12 md:col-span-6 card bg-base-100 shadow-sm"><div class="card-body p-3"><h3 class="text-xs font-bold mb-1">Notes / Terms</h3><div id="editor" style="height:120px"></div></div></div>
+      <div class="col-span-12 md:col-span-6 card bg-base-100 shadow-sm"><div class="card-body p-3 space-y-1.5">
         <h3 class="text-xs font-bold mb-1">Summary</h3>
         <div class="flex justify-between text-xs"><span class="text-base-content/60">Subtotal</span><span class="font-medium" id="sub">Rp 0</span></div>
         <div class="flex justify-between items-center text-xs"><span class="text-base-content/60">Discount</span><div class="join"><input type="number" id="gD" value="0" class="input input-xs join-item w-14 text-right" onchange="calc()"><select id="gDT" class="select select-xs join-item" onchange="calc()"><option value="p">%</option><option value="f">Rp</option></select></div></div>
