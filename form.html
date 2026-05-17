@@ -14,8 +14,8 @@
 <div id="ov" class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden" onclick="closeSB()"></div>
 
 <!-- Sidebar -->
-<aside id="sb" class="fixed left-0 top-0 h-full w-56 bg-base-100 border-r border-base-300 z-40 transition-transform -translate-x-full lg:translate-x-0 flex flex-col">
-  <div class="p-3 border-b border-base-300">
+<aside id="sb" class="fixed left-0 top-0 h-full w-[80vw] lg:w-56 bg-base-100 border-r border-base-300 z-[60] transition-transform -translate-x-full lg:translate-x-0 flex flex-col" onclick="event.stopPropagation()">
+  <div class="p-3 pb-4 border-b border-base-300">
     <select class="select select-sm w-full"><option>PT. Acme Indonesia</option><option>CV. Berkah Digital</option></select>
   </div>
   <nav class="flex-1 p-2 space-y-0.5 overflow-y-auto">
@@ -306,6 +306,7 @@ flatpickr('#fp2',{mode:'range',dateFormat:'Y-m-d'});
 function toggleSB(){document.getElementById('sb').classList.toggle('-translate-x-full');document.getElementById('ov').classList.toggle('hidden');}
 function closeSB(){document.getElementById('sb').classList.add('-translate-x-full');document.getElementById('ov').classList.add('hidden');}
 document.querySelector('main').addEventListener('click',()=>{if(innerWidth<1024)closeSB();});
+document.addEventListener('click',function(e){const m=document.getElementById('profMenu');if(!m.classList.contains('hidden')&&!e.target.closest('[onclick*="profMenu"]')&&!m.contains(e.target))m.classList.add('hidden');});
 function showToast(){const t=document.getElementById('toast');t.classList.remove('translate-x-[200%]');setTimeout(()=>t.classList.add('translate-x-[200%]'),2500);}
 
 function handleFiles(files){
