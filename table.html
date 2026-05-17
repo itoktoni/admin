@@ -201,9 +201,9 @@ function syncURL(){
   if(ship)params.set('filters[shipping][$eq]',ship);
   if(pay)params.set('filters[payment][$eq]',pay);
   if(sortCol)params.set('sort',sortDir===1?sortCol:'-'+sortCol);
-  if(selected.size)params.set('selected',[...selected].join(','));
-  const checked=[...document.querySelectorAll('#tBody .checkbox:checked')].map(c=>c.closest('tr').cells[1].textContent.trim());
-  if(checked.length&&!selected.size)params.set('selected',checked.join(','));
+  if(selected.size){const allMobile=document.querySelectorAll('#mBody > div').length;if(selected.size>=allMobile)params.set('selected','all');}
+  const checked=[...document.querySelectorAll('#tBody .checkbox')];const checkedCount=checked.filter(c=>c.checked).length;
+  if(checkedCount&&checkedCount>=checked.length)params.set('selected','all');
   const qs=params.toString();
   history.replaceState(null,'',qs?'?'+qs:location.pathname);
 }
