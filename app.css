@@ -6,6 +6,12 @@
 @import "./node_modules/flyonui/variants.css";
 @source "./node_modules/flyonui/dist/index.js";
 
+/* Fix join input padding */
+.join .input {
+  padding-left: 0.5rem !important;
+  padding-right: 1rem !important;
+}
+
 /* Card title border */
 .card-body > .card-title {
   padding-bottom: 0.5rem;
@@ -15,11 +21,14 @@
 
 /* TomSelect match FlyonUI input-sm height */
 .ts-wrapper .ts-control {
-  min-height: 32px !important;
-  padding: 0.25rem 0.5rem !important;
+  min-height: 29px !important;
+  height: 29px !important;
+  padding: 0 0.5rem !important;
   font-size: 0.8125rem !important;
   border-color: var(--color-base-300) !important;
   border-radius: var(--radius-field) !important;
+  display: flex !important;
+  align-items: center !important;
 }
 .ts-wrapper.focus .ts-control {
   border-color: var(--color-primary) !important;
