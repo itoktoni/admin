@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="shadcn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>POS</title>
+  <link href="dist/output.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>.pc:active{transform:scale(.96);transition:transform .1s}</style>
+</head>
+<body class="bg-base-200 h-screen flex flex-col overflow-hidden text-sm">
+<!-- Nav -->
+<nav class="bg-base-100 border-b border-base-300 px-3 py-1.5 flex items-center justify-between shrink-0">
+  <a href="form.html" class="btn btn-xs btn-soft"><span class="icon-[tabler--arrow-left] size-3.5"></span></a>
+  <strong class="text-sm">POS</strong>
+  <span class="text-xs text-base-content/60" id="clk"></span>
+</nav>
+
+<!-- Mobile tabs -->
+<div class="lg:hidden flex border-b border-base-300 bg-base-100 shrink-0">
+  <button id="tabProd" class="flex-1 py-2 text-xs font-bold border-b-2 border-primary text-primary" onclick="switchTab('prod')">Products</button>
+  <button id="tabOrder" class="flex-1 py-2 text-xs font-medium text-base-content/60" onclick="switchTab('order')">Order <span id="ccM" class="badge badge-xs badge-primary"></span></button>
+</div>
+
+<div class="flex-1 flex flex-col lg:flex-row overflow-hidden">
+  <!-- Products -->
+  <div id="panelProd" class="flex-1 flex flex-col p-2 min-h-0">
+    <!-- Categories row + view toggle fixed right -->
+    <div class="flex items-center gap-1.5 mb-1.5 shrink-0">
+      <div class="flex-1 flex gap-1 overflow-x-scroll" style="-webkit-overflow-scrolling:touch">
+        <button class="cat btn btn-xs btn-primary shrink-0" data-c="All">All</button>
+        <button class="cat btn btn-xs btn-outline shrink-0" data-c="Makanan">Makanan</button>
+        <button class="cat btn btn-xs btn-outline shrink-0" data-c="Minuman">Minuman</button>
+        <button class="cat btn btn-xs btn-outline shrink-0" data-c="Snack">Snack</button>
+        <button class="cat btn btn-xs btn-outline shrink-0" data-c="Dessert">Dessert</button>
+        <button class="cat btn btn-xs btn-outline shrink-0" data-c="Dessert">Dessert</button>
+        <button class="cat btn btn-xs btn-outline shrink-0" data-c="Dessert">Dessert</button>
+        <button class="cat btn btn-xs btn-outline shrink-0" data-c="Dessert">Dessert</button>
+        <button class="cat btn btn-xs btn-outline shrink-0" data-c="Dessert">Dessert</button>
+        <button class="cat btn btn-xs btn-outline shrink-0" data-c="Dessert">Dessert</button>
+      </div>
+      <button id="gB" class="btn btn-xs btn-primary shrink-0" onclick="view='grid';render();this.className='btn btn-xs btn-primary shrink-0';document.getElementById('lB').className='btn btn-xs btn-outline shrink-0'"><span class="icon-[tabler--layout-grid] size-3.5"></span></button>
+      <button id="lB" class="btn btn-xs btn-outline shrink-0" onclick="view='list';render();this.className='btn btn-xs btn-primary shrink-0';document.getElementById('gB').className='btn btn-xs btn-outline shrink-0'"><span class="icon-[tabler--list] size-3.5"></span></button>
+    </div>
+    <!-- Search below -->
+    <input type="text" id="src" class="input input-sm w-full mb-2 shrink-0" placeholder="Cari produk..." oninput="render()">
+    <!-- Grid -->
+    <div id="prods" class="flex-1 overflow-y-scroll min-h-0" style="-webkit-overflow-scrolling:touch"></div>
+  </div>
+
+  <!-- Order -->
+  <div id="panelOrder" class="hidden lg:flex lg:w-72 xl:w-80 bg-base-100 border-t lg:border-t-0 lg:border-l border-base-300 flex-col h-full">
+    <div class="flex items-center justify-between px-2 py-1.5 border-b border-base-300 shrink-0">
+      <span class="font-bold text-xs">Order <span id="cc" class="text-base-content/60"></span></span>
+      <button class="btn btn-xs btn-soft btn-error" onclick="clearCart()">Clear</button>
+    </div>
+    <div id="cart" class="flex-1 overflow-y-scroll p-2 space-y-1" style="-webkit-overflow-scrolling:touch"><p class="text-center text-base-content/40 text-xs py-4">Empty</p></div>
+    <div class="border-t border-base-300 p-2 space-y-1.5 shrink-0">
+      <div class="flex justify-between text-xs"><span class="text-base-content/60">Subtotal</span><span id="sub">Rp 0</span></div>
+      <div class="flex justify-between items-center text-xs"><span class="text-base-content/60">Disc</span><div class="join"><input type="number" id="dsc" value="0" class="input input-xs join-item w-12 text-right" oninput="calcT()"><button id="dTog" class="btn btn-xs join-item" onclick="dP=!dP;this.textContent=dP?'%':'Rp';calcT()">%</button></div></div>
+      <div class="flex justify-between items-center text-xs"><span class="text-base-content/60">Tax</span><div class="join"><input type="number" id="tax" value="11" class="input input-xs join-item w-12 text-right" oninput="calcT()"><span class="btn btn-xs join-item no-animation">%</span></div></div>
+      <div class="divider my-0"></div>
+      <div class="flex justify-between font-bold text-base"><span>Total</span><span id="tot">Rp 0</span></div>
+      <div class="flex gap-1">
+        <button class="pay btn btn-xs btn-outline flex-1" data-m="cash">Cash</button>
+        <button class="pay btn btn-xs btn-outline flex-1" data-m="qris">QRIS</button>
+        <button class="pay btn btn-xs btn-outline flex-1" data-m="card">Card</button>
+      </div>
+      <div id="qr" class="hidden py-1 text-center"><img src="https://placehold.co/100x100/f8fafc/1e293b?text=QRIS" class="rounded mx-auto"></div>
+      <button class="btn btn-sm btn-primary btn-block" onclick="checkout()">Bayar</button>
+      <div class="flex gap-1"><button class="btn btn-xs btn-outline flex-1" onclick="window.print()"><span class="icon-[tabler--printer] size-3"></span></button><button class="btn btn-xs btn-outline flex-1" onclick="expPDF()"><span class="icon-[tabler--pdf] size-3"></span></button></div>
+    </div>
+  </div>
+</div>
+
+<script>
+const P=[{n:"Nasi Goreng",p:25000,c:"Makanan"},{n:"Mie Ayam",p:20000,c:"Makanan"},{n:"Ayam Bakar",p:35000,c:"Makanan"},{n:"Soto Betawi",p:30000,c:"Makanan"},{n:"Es Teh Manis",p:8000,c:"Minuman"},{n:"Kopi Susu",p:18000,c:"Minuman"},{n:"Jus Alpukat",p:15000,c:"Minuman"},{n:"Air Mineral",p:5000,c:"Minuman"},{n:"Kentang Goreng",p:15000,c:"Snack"},{n:"Risoles",p:10000,c:"Snack"},{n:"Tahu Crispy",p:12000,c:"Snack"},{n:"Cireng",p:8000,c:"Snack"},{n:"Es Krim",p:12000,c:"Dessert"},{n:"Pudding",p:10000,c:"Dessert"},{n:"Brownies",p:18000,c:"Dessert"},{n:"Cheesecake",p:25000,c:"Dessert"}];
+let cart=[],cat="All",view="grid",dP=true,pay="";
+const fmt=n=>"Rp "+n.toLocaleString("id-ID");
+
+function switchTab(t){
+  document.getElementById('panelProd').className=t==='prod'?'flex-1 flex flex-col p-2 min-h-0':'hidden';
+  document.getElementById('panelOrder').className=t==='order'?'flex flex-col h-full':'hidden lg:flex lg:w-72 xl:w-80 bg-base-100 border-t lg:border-t-0 lg:border-l border-base-300 flex-col h-full';
+  document.getElementById('tabProd').className=t==='prod'?'flex-1 py-2 text-xs font-bold border-b-2 border-primary text-primary':'flex-1 py-2 text-xs font-medium text-base-content/60';
+  document.getElementById('tabOrder').className=t==='order'?'flex-1 py-2 text-xs font-bold border-b-2 border-primary text-primary':'flex-1 py-2 text-xs font-medium text-base-content/60';
+}
+
+function render(){const c=document.getElementById("prods"),q=document.getElementById("src").value.toLowerCase(),f=P.filter(p=>(cat==="All"||p.c===cat)&&p.n.toLowerCase().includes(q));
+if(view==="grid"){c.className="grid grid-cols-3 sm:grid-cols-4 lg:grid-cols-5 gap-1.5 content-start overflow-y-scroll min-h-0";c.innerHTML=f.map(p=>`<div class="pc card bg-base-100 border border-base-300 cursor-pointer" onclick="add('${p.n}')"><figure class="px-1 pt-1"><img src="https://placehold.co/100x70/f1f5f9/475569?text=${encodeURIComponent(p.n.split(' ')[0])}" class="rounded w-full h-14 object-cover"></figure><div class="p-1.5"><p class="text-[11px] font-medium truncate">${p.n}</p><p class="text-[11px] font-bold">${fmt(p.p)}</p></div></div>`).join("");}
+else{c.className="space-y-1 overflow-y-scroll min-h-0";c.innerHTML=f.map(p=>`<div class="pc flex items-center gap-2 bg-base-100 border border-base-300 rounded p-1.5 cursor-pointer" onclick="add('${p.n}')"><div class="flex-1 min-w-0"><p class="text-xs font-medium truncate">${p.n}</p><span class="text-[10px] text-base-content/60">${p.c}</span></div><span class="text-xs font-bold shrink-0">${fmt(p.p)}</span></div>`).join("");}}
+
+function add(n){const p=P.find(x=>x.n===n),e=cart.find(x=>x.n===n);if(e)e.q++;else cart.push({n:p.n,p:p.p,q:1});rCart();calcT();}
+function uQ(n,d){const i=cart.find(x=>x.n===n);i.q+=d;if(i.q<=0)cart=cart.filter(x=>x.n!==n);rCart();calcT();}
+function clearCart(){cart=[];rCart();calcT();}
+function rCart(){const c=document.getElementById("cart");const cnt=cart.reduce((s,i)=>s+i.q,0);document.getElementById("cc").textContent=cnt?"("+cnt+")":"";document.getElementById("ccM").textContent=cnt||"";if(!cart.length){c.innerHTML='<p class="text-center text-base-content/40 text-xs py-4">Empty</p>';return;}c.innerHTML=cart.map(i=>`<div class="flex items-center gap-1 py-0.5 border-b border-base-200 last:border-0"><div class="flex-1 min-w-0"><p class="text-xs font-medium truncate">${i.n}</p><p class="text-[10px] text-base-content/60">${fmt(i.p)}</p></div><div class="join"><button class="btn btn-xs join-item" onclick="uQ('${i.n}',-1)">−</button><span class="btn btn-xs join-item no-animation font-bold">${i.q}</span><button class="btn btn-xs join-item" onclick="uQ('${i.n}',1)">+</button></div><span class="text-xs font-bold w-14 text-right shrink-0">${fmt(i.p*i.q)}</span></div>`).join("");}
+function calcT(){const st=cart.reduce((s,i)=>s+i.p*i.q,0);const dv=+(document.getElementById("dsc").value)||0;const tv=+(document.getElementById("tax").value)||0;const disc=dP?st*dv/100:dv;const af=Math.max(0,st-disc);const g=Math.round(af+af*tv/100);document.getElementById("sub").textContent=fmt(st);document.getElementById("tot").textContent=fmt(g);}
+function checkout(){if(!cart.length)return alert("Empty!");if(!pay)return alert("Select payment!");alert("Success!");clearCart();}
+function expPDF(){if(!cart.length)return alert("Empty!");const d=document.createElement('div');d.style.cssText='padding:16px;font:12px sans-serif';d.innerHTML='<h3>Struk - '+new Date().toLocaleString('id-ID')+'</h3><hr><br>'+cart.map(i=>`<div style="display:flex;justify-content:space-between"><span>${i.n} x${i.q}</span><span>${fmt(i.p*i.q)}</span></div>`).join('')+'<hr><div style="display:flex;justify-content:space-between;font-weight:bold;margin-top:8px"><span>Total</span><span>'+document.getElementById("tot").textContent+'</span></div>';html2pdf().set({margin:5,filename:'struk.pdf',jsPDF:{format:[80,200],unit:'mm'}}).from(d).save();}
+document.querySelectorAll(".cat").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".cat").forEach(x=>{x.className="cat btn btn-xs btn-outline shrink-0"});b.className="cat btn btn-xs btn-primary shrink-0";cat=b.dataset.c;render();}));
+document.querySelectorAll(".pay").forEach(b=>b.addEventListener("click",()=>{document.querySelectorAll(".pay").forEach(x=>{x.className="pay btn btn-xs btn-outline flex-1"});b.className="pay btn btn-xs btn-primary flex-1";pay=b.dataset.m;document.getElementById("qr").classList.toggle("hidden",pay!=="qris");}));
+setInterval(()=>{document.getElementById("clk").textContent=new Date().toLocaleTimeString("id-ID",{hour:"2-digit",minute:"2-digit"})},1000);
+render();
+</script>
+</body>
+</html>

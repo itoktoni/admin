@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="id" data-theme="shadcn">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Invoice</title>
+  <link href="dist/output.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/css/tom-select.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.snow.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/html2pdf.js/0.10.1/html2pdf.bundle.min.js"></script>
+  <style>.ts-wrapper .ts-control{min-height:32px;font-size:13px;border-color:var(--color-base-300)}.ts-wrapper .ts-dropdown{z-index:9999;font-size:13px}@media print{.no-print{display:none!important}.main{margin-left:0!important;padding-bottom:0!important}body{background:#fff}@page{margin:1cm;size:A4}}</style>
+</head>
+<body class="bg-base-200 min-h-screen text-sm">
+<div id="ov" class="fixed inset-0 bg-black/40 z-30 hidden lg:hidden" onclick="closeSB()"></div>
+<aside id="sb" class="no-print fixed left-0 top-0 h-full w-56 bg-base-100 border-r border-base-300 z-40 transition-transform -translate-x-full lg:translate-x-0 flex flex-col">
+  <div class="p-3 border-b border-base-300"><select class="select select-sm w-full"><option>PT. Acme Indonesia</option><option>CV. Berkah Digital</option></select></div>
+  <nav class="flex-1 p-2 space-y-0.5 overflow-y-auto">
+    <a href="#" class="btn btn-sm btn-soft w-full justify-start gap-2"><span class="icon-[tabler--dashboard] size-4"></span>Dashboard</a>
+    <div class="divider my-1 text-xs">Menu</div>
+    <a href="form.html" class="btn btn-sm btn-soft w-full justify-start gap-2"><span class="icon-[tabler--forms] size-4"></span>Forms</a>
+    <a href="invoice.html" class="btn btn-sm btn-primary w-full justify-start gap-2"><span class="icon-[tabler--file-invoice] size-4"></span>Invoice</a>
+    <a href="pos.html" class="btn btn-sm btn-soft w-full justify-start gap-2"><span class="icon-[tabler--shopping-cart] size-4"></span>POS</a>
+  </nav>
+  <div class="p-2 border-t border-base-300 flex items-center gap-2">
+    <div class="avatar placeholder"><div class="bg-primary text-primary-content w-7 rounded-full"><span class="text-xs">JD</span></div></div>
+    <p class="text-xs font-medium flex-1 truncate">John Doe</p>
+    <button class="btn btn-xs btn-soft btn-error">⏻</button>
+  </div>
+</aside>
+<div class="lg:hidden fixed top-0 left-0 right-0 bg-base-100 border-b border-base-300 z-50 no-print">
+  <div class="flex items-center justify-between px-3 py-2">
+    <div class="flex items-center gap-2">
+      <div class="avatar placeholder"><div class="bg-primary text-primary-content w-7 rounded-full"><span class="text-[10px]">AC</span></div></div>
+      <div><p class="text-xs font-bold leading-tight">Invoice</p><p class="text-[10px] text-base-content/50">INV-2026-0001</p></div>
+    </div>
+    <div class="flex gap-1">
+      <button class="btn btn-xs btn-soft btn-circle" onclick="window.print()"><span class="icon-[tabler--printer] size-3.5"></span></button>
+      <button class="btn btn-xs btn-soft btn-circle" onclick="exportPDF()"><span class="icon-[tabler--pdf] size-3.5"></span></button>
+      <button class="btn btn-xs btn-primary btn-circle"><span class="icon-[tabler--send] size-3.5"></span></button>
+    </div>
+  </div>
+</div>
+
+<main class="main lg:ml-56 pt-14 lg:pt-0 pb-16 lg:pb-14">
+  <div class="p-3 lg:p-4 max-w-5xl mx-auto space-y-4" id="invoiceContent">
+    <nav class="text-xs no-print" aria-label="Breadcrumb"><ol class="flex items-center gap-1 text-base-content/60"><li><a href="#" class="hover:text-primary">Home</a></li><li><span class="icon-[tabler--chevron-right] size-3"></span></li><li><a href="#" class="hover:text-primary">Invoice</a></li><li><span class="icon-[tabler--chevron-right] size-3"></span></li><li class="text-base-content font-medium">Create</li></ol></nav>
+    <h2 class="text-lg font-bold">Invoice Generator</h2>
+
+    <!-- Header -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="card bg-base-100 shadow-sm"><div class="card-body p-3">
+        <div class="flex items-center gap-2 mb-2"><div class="avatar placeholder"><div class="bg-primary text-primary-content w-8 rounded"><span class="text-xs">AC</span></div></div><strong class="text-sm">PT. Acme Indonesia</strong></div>
+        <p class="text-xs text-base-content/70">Jl. Sudirman Kav. 52-53, Jakarta 12190<br>📞 (021) 555-0123 · ✉️ billing@acme.co.id</p>
+      </div></div>
+      <div class="card bg-base-100 shadow-sm"><div class="card-body p-3 space-y-2">
+        <div class="flex justify-between items-center"><span class="text-xs text-base-content/70">Invoice #</span><span class="font-mono font-bold text-xs">INV-2026-0001</span></div>
+        <div class="flex justify-between items-center"><span class="text-xs text-base-content/70">Date</span><input type="text" id="invDate" class="input input-xs w-28 text-right"></div>
+        <div class="flex justify-between items-center"><span class="text-xs text-base-content/70">Due</span><input type="text" id="dueDate" class="input input-xs w-28 text-right"></div>
+        <div class="flex justify-between items-center"><span class="text-xs text-base-content/70">Status</span><select class="select select-xs w-24"><option>Draft</option><option>Sent</option><option>Paid</option></select></div>
+      </div></div>
+    </div>
+
+    <!-- Customer -->
+    <div class="card bg-base-100 shadow-sm"><div class="card-body p-3">
+      <h3 class="text-xs font-bold mb-2">Customer</h3>
+      <select id="custSel"><option value="">Search customer...</option></select>
+      <div id="custInfo" class="hidden mt-2 grid grid-cols-1 md:grid-cols-2 gap-2">
+        <div class="bg-base-200 rounded p-2"><p class="text-[10px] font-bold text-base-content/50 uppercase">Billing</p><p class="text-xs font-medium" id="cN"></p><p class="text-xs text-base-content/70" id="cA"></p></div>
+        <div class="bg-base-200 rounded p-2"><p class="text-[10px] font-bold text-base-content/50 uppercase">Shipping</p><p class="text-xs font-medium" id="cN2"></p><p class="text-xs text-base-content/70" id="cA2"></p></div>
+      </div>
+    </div></div>
+
+    <!-- Items -->
+    <div class="card bg-base-100 shadow-sm" style="overflow:visible"><div class="card-body p-3" style="overflow:visible">
+      <h3 class="text-xs font-bold mb-2">Items</h3>
+      <div class="hidden md:block" style="overflow:visible">
+        <table class="table table-xs w-full"><thead><tr><th>#</th><th>Item</th><th>Qty</th><th>Price</th><th>Disc</th><th>Tax</th><th class="text-right">Amount</th><th></th></tr></thead><tbody id="tB"></tbody></table>
+      </div>
+      <div class="md:hidden space-y-2" id="mB"></div>
+      <button class="btn btn-xs btn-primary mt-2" onclick="addRow()">+ Add</button>
+    </div></div>
+
+    <!-- Summary -->
+    <div class="grid grid-cols-1 md:grid-cols-2 gap-3">
+      <div class="card bg-base-100 shadow-sm"><div class="card-body p-3"><h3 class="text-xs font-bold mb-1">Notes / Terms</h3><div id="editor" style="height:120px"></div></div></div>
+      <div class="card bg-base-100 shadow-sm"><div class="card-body p-3 space-y-1.5">
+        <h3 class="text-xs font-bold mb-1">Summary</h3>
+        <div class="flex justify-between text-xs"><span class="text-base-content/60">Subtotal</span><span class="font-medium" id="sub">Rp 0</span></div>
+        <div class="flex justify-between items-center text-xs"><span class="text-base-content/60">Discount</span><div class="join"><input type="number" id="gD" value="0" class="input input-xs join-item w-14 text-right" onchange="calc()"><select id="gDT" class="select select-xs join-item" onchange="calc()"><option value="p">%</option><option value="f">Rp</option></select></div></div>
+        <div class="flex justify-between items-center text-xs"><span class="text-base-content/60">Tax</span><select id="gT" class="select select-xs w-20" onchange="calc()"><option value="0">0%</option><option value="11">11%</option><option value="12">12%</option></select></div>
+        <div class="divider my-0.5"></div>
+        <div class="flex justify-between font-bold text-base"><span>Total</span><span id="gt">Rp 0</span></div>
+      </div></div>
+    </div>
+  </div>
+</main>
+
+<!-- Mobile Bottom Nav -->
+<footer class="no-print fixed bottom-0 left-0 lg:left-56 right-0 bg-base-100 border-t border-base-300 z-30">
+  <div class="flex justify-around items-center py-1 lg:hidden">
+    <a href="invoice.html" class="flex flex-col items-center gap-0.5 text-primary"><span class="icon-[tabler--file-invoice] size-5"></span><span class="text-[9px] font-medium">Invoice</span></a>
+    <a href="pos.html" class="flex flex-col items-center gap-0.5 text-base-content/50"><span class="icon-[tabler--shopping-cart] size-5"></span><span class="text-[9px]">POS</span></a>
+    <a href="#" class="flex flex-col items-center gap-0.5 text-base-content/50 -mt-3"><span class="btn btn-circle btn-sm btn-primary shadow"><span class="icon-[tabler--dashboard] size-5"></span></span><span class="text-[9px] mt-0.5">Home</span></a>
+    <a href="#" class="flex flex-col items-center gap-0.5 text-base-content/50"><span class="icon-[tabler--user] size-5"></span><span class="text-[9px]">Profile</span></a>
+    <a href="#" class="flex flex-col items-center gap-0.5 text-base-content/50"><span class="icon-[tabler--settings] size-5"></span><span class="text-[9px]">Settings</span></a>
+  </div>
+  <div class="hidden lg:flex gap-1.5 justify-end px-3 py-2">
+    <button class="btn btn-sm btn-outline" onclick="window.print()"><span class="icon-[tabler--printer] size-4"></span>Print</button>
+    <button class="btn btn-sm btn-outline" onclick="exportPDF()"><span class="icon-[tabler--pdf] size-4"></span>PDF</button>
+    <button class="btn btn-sm btn-soft"><span class="icon-[tabler--device-floppy] size-4"></span>Draft</button>
+    <button class="btn btn-sm btn-primary"><span class="icon-[tabler--send] size-4"></span>Send</button>
+  </div>
+</footer>
+
+<script src="https://cdn.jsdelivr.net/npm/tom-select@2.3.1/dist/js/tom-select.complete.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>
+<script>
+const custs=[{id:'1',name:'PT. Maju Jaya',addr:'Jl. Sudirman No. 123, Jakarta'},{id:'2',name:'CV. Berkah Sentosa',addr:'Jl. Gatot Subroto No. 45, Bandung'},{id:'3',name:'PT. Sinar Abadi',addr:'Jl. Ahmad Yani No. 67, Surabaya'},{id:'4',name:'UD. Makmur Sejahtera',addr:'Jl. Diponegoro No. 89, Semarang'},{id:'5',name:'PT. Global Teknik',addr:'Jl. MT Haryono No. 12, Medan'}];
+const prods=[{id:'1',name:'Laptop ASUS ROG',p:15000000},{id:'2',name:'Monitor LG 27"',p:4500000},{id:'3',name:'Keyboard Mechanical',p:1200000},{id:'4',name:'Mouse Wireless',p:350000},{id:'5',name:'Headset Gaming',p:800000},{id:'6',name:'Webcam HD',p:650000},{id:'7',name:'USB Hub 7-Port',p:250000},{id:'8',name:'SSD 1TB NVMe',p:1500000},{id:'9',name:'RAM DDR5 16GB',p:900000},{id:'10',name:'Printer Laser',p:3200000}];
+let rc=0;const tss={};const fmt=n=>'Rp '+Math.round(n).toLocaleString('id-ID');
+function toggleSB(){document.getElementById('sb').classList.toggle('-translate-x-full');document.getElementById('ov').classList.toggle('hidden');}
+function closeSB(){document.getElementById('sb').classList.add('-translate-x-full');document.getElementById('ov').classList.add('hidden');}
+document.querySelector('main').addEventListener('click',()=>{if(innerWidth<1024)closeSB();});
+flatpickr('#invDate',{defaultDate:'today',dateFormat:'Y-m-d'});
+flatpickr('#dueDate',{defaultDate:new Date(Date.now()+30*864e5),dateFormat:'Y-m-d'});
+new TomSelect('#custSel',{valueField:'id',labelField:'name',searchField:['name','addr'],options:custs,onChange(v){const c=custs.find(x=>x.id===v);if(!c)return;document.getElementById('custInfo').classList.remove('hidden');document.getElementById('cN').textContent=c.name;document.getElementById('cA').textContent=c.addr;document.getElementById('cN2').textContent=c.name;document.getElementById('cA2').textContent=c.addr;}});
+function addRow(){rc++;const i=rc;const opts=prods.map(p=>'<option value="'+p.id+'">'+p.name+'</option>').join('');
+const tr=document.createElement('tr');tr.id='r'+i;tr.innerHTML='<td>'+i+'</td><td><select id="it'+i+'"><option value="">Select</option>'+opts+'</select></td><td><input type="number" id="q'+i+'" value="1" min="1" class="input input-xs w-12" onchange="cr('+i+')"></td><td><input type="number" id="p'+i+'" value="0" class="input input-xs w-20" onchange="cr('+i+')"></td><td><div class="join"><input type="number" id="d'+i+'" value="0" class="input input-xs join-item w-12" onchange="cr('+i+')"><select id="dt'+i+'" class="select select-xs join-item" onchange="cr('+i+')"><option value="p">%</option><option value="f">Rp</option></select></div></td><td><select id="tx'+i+'" class="select select-xs" onchange="cr('+i+')"><option value="0">0%</option><option value="11">11%</option><option value="12">12%</option></select></td><td class="text-right font-mono" id="a'+i+'">0</td><td><button class="btn btn-xs btn-soft btn-error" onclick="dr('+i+')">×</button></td>';
+document.getElementById('tB').appendChild(tr);
+const mc=document.createElement('div');mc.id='mr'+i;mc.className='bg-base-100 rounded-lg border border-base-300 p-3 space-y-2';
+mc.innerHTML=`<div class="flex items-start justify-between gap-2">
+  <div class="flex-1"><select id="mit${i}"><option value="">Select item</option>${opts}</select></div>
+  <button class="btn btn-xs btn-circle btn-soft btn-error shrink-0" onclick="dr(${i})"><span class="icon-[tabler--x] size-3"></span></button>
+</div>
+<div class="flex items-center gap-2">
+  <div class="flex items-center gap-1 bg-base-200 rounded px-2 py-1">
+    <button class="btn btn-xs btn-circle btn-soft" onclick="document.getElementById('mq${i}').stepDown();cr(${i})"><span class="icon-[tabler--minus] size-3"></span></button>
+    <input type="number" id="mq${i}" value="1" min="1" class="input input-xs w-10 text-center bg-transparent border-0 no-focus" onchange="cr(${i})">
+    <button class="btn btn-xs btn-circle btn-soft" onclick="document.getElementById('mq${i}').stepUp();cr(${i})"><span class="icon-[tabler--plus] size-3"></span></button>
+  </div>
+  <span class="text-[10px] text-base-content/50">×</span>
+  <input type="number" id="mp${i}" value="0" class="input input-xs flex-1" placeholder="Harga" onchange="cr(${i})">
+  <span class="font-mono text-xs font-bold shrink-0" id="ma${i}">Rp 0</span>
+</div>
+<details class="group">
+  <summary class="text-[10px] text-primary cursor-pointer flex items-center gap-1"><span class="icon-[tabler--chevron-right] size-3 group-open:rotate-90 transition-transform"></span>Disc & Tax</summary>
+  <div class="grid grid-cols-2 gap-2 mt-1.5">
+    <div><label class="text-[10px] text-base-content/50">Discount</label><div class="join w-full"><input type="number" id="md${i}" value="0" class="input input-xs join-item flex-1" onchange="cr(${i})"><select id="mdt${i}" class="select select-xs join-item" onchange="cr(${i})"><option value="p">%</option><option value="f">Rp</option></select></div></div>
+    <div><label class="text-[10px] text-base-content/50">Tax</label><select id="mtx${i}" class="select select-xs w-full" onchange="cr(${i})"><option value="0">0%</option><option value="11">11%</option><option value="12">12%</option></select></div>
+  </div>
+</details>`;
+document.getElementById('mB').appendChild(mc);
+const po=prods.map(p=>({value:p.id,text:p.name}));
+tss['it'+i]=new TomSelect('#it'+i,{options:po,onChange(v){sp(i,v,'d')}});
+tss['mit'+i]=new TomSelect('#mit'+i,{options:po,onChange(v){sp(i,v,'m')}});}
+function sp(i,v,s){const p=prods.find(x=>x.id===v);if(!p)return;document.getElementById('p'+i).value=p.p;if(document.getElementById('mp'+i))document.getElementById('mp'+i).value=p.p;if(s==='d'&&tss['mit'+i])tss['mit'+i].setValue(v,true);if(s==='m'&&tss['it'+i])tss['it'+i].setValue(v,true);cr(i);}
+function cr(i){const q=+(document.getElementById('q'+i)?.value)||+(document.getElementById('mq'+i)?.value)||0;const p=+(document.getElementById('p'+i)?.value)||+(document.getElementById('mp'+i)?.value)||0;const d=+(document.getElementById('d'+i)?.value)||0;const dt=document.getElementById('dt'+i)?.value||'p';const tx=+(document.getElementById('tx'+i)?.value)||0;if(document.getElementById('q'+i))document.getElementById('q'+i).value=q;if(document.getElementById('mq'+i))document.getElementById('mq'+i).value=q;if(document.getElementById('p'+i))document.getElementById('p'+i).value=p;if(document.getElementById('mp'+i))document.getElementById('mp'+i).value=p;let s=q*p,dc=dt==='p'?s*d/100:d,af=s-dc,t=af*tx/100;const am=af+t;document.getElementById('a'+i).textContent=fmt(am);if(document.getElementById('ma'+i))document.getElementById('ma'+i).textContent=fmt(am);calc();}
+function dr(i){document.getElementById('r'+i)?.remove();document.getElementById('mr'+i)?.remove();tss['it'+i]?.destroy();tss['mit'+i]?.destroy();delete tss['it'+i];delete tss['mit'+i];calc();}
+function calc(){let s=0;document.querySelectorAll('[id^="a"]').forEach(el=>{if(/^a\d+$/.test(el.id))s+=+(el.textContent.replace(/[^\d]/g,''))||0;});const gd=+(document.getElementById('gD').value)||0;const gdt=document.getElementById('gDT').value;const gt=+(document.getElementById('gT').value)||0;let dc=gdt==='p'?s*gd/100:gd,af=s-dc,t=af*gt/100;document.getElementById('sub').textContent=fmt(s);document.getElementById('gt').textContent=fmt(af+t);}
+function exportPDF(){html2pdf().set({margin:10,filename:'invoice.pdf',html2canvas:{scale:2},jsPDF:{format:'a4'}}).from(document.getElementById('invoiceContent')).save();}
+addRow();
+</script>
+<script src="https://cdn.jsdelivr.net/npm/quill@2.0.3/dist/quill.js"></script>
+<script>
+new Quill('#editor',{theme:'snow',placeholder:'Notes, terms & conditions...',modules:{toolbar:[[{header:[3,false]}],['bold','italic','underline'],['link'],[{list:'ordered'},{list:'bullet'}]]}});
+document.querySelector('.ql-editor').innerHTML='<p>Transfer ke BCA 123-456-7890 a.n. PT. Acme Indonesia.</p><p>Jatuh tempo 30 hari setelah invoice diterbitkan.</p>';
+</script>
+</body>
+</html>

@@ -1,0 +1,22 @@
+{
+  "name": "flyon",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "build": "npx @tailwindcss/cli -i app.css -o dist/output.css --minify",
+    "dev": "npx @tailwindcss/cli -i app.css -o dist/output.css --watch"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "dependencies": {
+    "flyonui": "^2.4.1",
+    "tailwindcss": "^4.3.0"
+  },
+  "devDependencies": {
+    "@iconify-json/tabler": "^1.2.35",
+    "@iconify/tailwind4": "^1.2.3"
+  }
+}

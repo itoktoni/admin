@@ -1,0 +1,29 @@
+@import "tailwindcss";
+@plugin "flyonui" {
+  themes: shadcn;
+}
+@plugin "@iconify/tailwind4";
+@import "./node_modules/flyonui/variants.css";
+@source "./node_modules/flyonui/dist/index.js";
+
+/* TomSelect match FlyonUI input-sm height */
+.ts-wrapper .ts-control {
+  min-height: 32px !important;
+  padding: 0.25rem 0.5rem !important;
+  font-size: 0.8125rem !important;
+  border-color: var(--color-base-300) !important;
+  border-radius: var(--radius-field) !important;
+}
+.ts-wrapper.focus .ts-control {
+  border-color: var(--color-primary) !important;
+  box-shadow: 0 0 0 1px var(--color-primary) !important;
+}
+.ts-wrapper .ts-dropdown {
+  z-index: 9999 !important;
+  font-size: 0.8125rem !important;
+  border-color: var(--color-base-300) !important;
+  border-radius: var(--radius-field) !important;
+}
+.ts-wrapper .ts-dropdown .option {
+  padding: 0.375rem 0.625rem !important;
+}
